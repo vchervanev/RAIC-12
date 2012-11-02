@@ -1,1 +1,2 @@
-start javaw -cp ".;*;%~dp0/*" -jar "local-runner.jar" true
+javaw -cp ".;*;%~dp0/*" -jar "local-runner.jar" true
+local-runner-sync.bat
