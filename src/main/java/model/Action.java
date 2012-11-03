@@ -8,8 +8,12 @@ package model;
  * Возможное действие танка на поле боя
  */
 public abstract class Action implements Comparable<Action> {
+    Variant variant = Variant.none;
+
+    public Variant getVariant() {
+        return variant;
+    }
     public abstract void estimate();
-    public abstract Variant getVariant();
     public abstract void perform();
     public void tryPerformSecondary() {}
 

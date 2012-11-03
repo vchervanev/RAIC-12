@@ -13,5 +13,6 @@ public enum Variant {
     fireTryKill, // стрельба со среднего расстояния
     aimAverage, // среднее время для прицеливания
     aimSlow,  // нужно много времени для прицеливания
-    fireHardlyKill // стрельба издалекаааа
+    fireHardlyKill, // стрельба издалекаааа
+    none
 }

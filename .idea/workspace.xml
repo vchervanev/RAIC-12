@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4dddb735-8945-403b-b4c4-03f6ebc944ca" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/model/Action.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/model/Variant.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/model/ActionBonus.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/MyStrategy.java" afterPath="$PROJECT_DIR$/src/main/java/MyStrategy.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/model/Action.java" afterPath="$PROJECT_DIR$/src/main/java/model/Action.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/model/Variant.java" afterPath="$PROJECT_DIR$/src/main/java/model/Variant.java" />
     </list>
     <ignored path="java-cgdk.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -88,16 +88,25 @@
       <file leaf-file-name="Action.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/model/Action.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="0" selection-start="396" selection-end="396" vertical-scroll-proportion="0.0">
+            <state line="15" column="0" selection-start="303" selection-end="303" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Variant.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="ActionBonus.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/model/ActionBonus.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="6" column="63" selection-start="96" selection-end="96" vertical-scroll-proportion="0.17085427">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Variant.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/model/Variant.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="62" selection-start="153" selection-end="153" vertical-scroll-proportion="0.19932999">
+            <state line="16" column="8" selection-start="521" selection-end="521" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -117,9 +126,10 @@
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/src/main/java/model/Env.java" />
+        <option value="$PROJECT_DIR$/src/main/java/MyStrategy.java" />
         <option value="$PROJECT_DIR$/src/main/java/model/Variant.java" />
         <option value="$PROJECT_DIR$/src/main/java/model/Action.java" />
-        <option value="$PROJECT_DIR$/src/main/java/MyStrategy.java" />
+        <option value="$PROJECT_DIR$/src/main/java/model/ActionBonus.java" />
       </list>
     </option>
   </component>
@@ -273,6 +283,7 @@
   <component name="PropertiesComponent">
     <property name="project.structure.last.edited" value="Global Libraries" />
     <property name="GoToFile.includeJavaFiles" value="false" />
+    <property name="OverrideImplement.combined" value="true" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="MemberChooser.sorted" value="false" />
@@ -477,7 +488,11 @@
       <created>1351935223083</created>
       <updated>1351935223083</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="первая версия Action и Variant, без конкретных реализаций">
+      <created>1351939768998</created>
+      <updated>1351939768998</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -546,7 +561,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="рефакторинг к будущей архитектуре" />
+    <option name="LAST_COMMIT_MESSAGE" value="первая версия Action и Variant, без конкретных реализаций" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -562,6 +577,7 @@
     <MESSAGE value="new runner + git integration" />
     <MESSAGE value="тестовые пробежки" />
     <MESSAGE value="рефакторинг к будущей архитектуре" />
+    <MESSAGE value="первая версия Action и Variant, без конкретных реализаций" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -600,13 +616,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/model/Action.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="0" selection-start="396" selection-end="396" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/MyStrategy.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="25" column="112" selection-start="595" selection-end="595" vertical-scroll-proportion="0.0">
@@ -620,7 +629,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/model/Variant.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="62" selection-start="153" selection-end="153" vertical-scroll-proportion="0.19932999">
+        <state line="16" column="8" selection-start="521" selection-end="521" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/model/Action.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="0" selection-start="303" selection-end="303" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/model/ActionBonus.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="63" selection-start="96" selection-end="96" vertical-scroll-proportion="0.17085427">
           <folding />
         </state>
       </provider>
