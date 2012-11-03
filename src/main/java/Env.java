@@ -19,6 +19,11 @@ public class Env {
     public Tank oldSelf = null;
     public Tank self;
 
+    public static boolean isTarget(Tank tank) {
+        return tank.getCrewHealth() != 0 || tank.getHullDurability() != 0 ||
+                !tank.isTeammate();
+    }
+
     public void init(Tank self, World world, Move move) {
         // TODO поддержка нескольких инициализаций за один тик, когда несколько танков во взводе
         this.oldMove = this.move;

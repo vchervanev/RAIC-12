@@ -2,13 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4dddb735-8945-403b-b4c4-03f6ebc944ca" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ActionFire.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ActionAim.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/MyStrategy.java" afterPath="$PROJECT_DIR$/src/main/java/MyStrategy.java" />
-      <change type="MOVED" beforePath="D:\raic\src\main\java\model\Action.java" afterPath="$PROJECT_DIR$/src/main/java/Action.java" />
-      <change type="MOVED" beforePath="D:\raic\src\main\java\model\ActionBonus.java" afterPath="$PROJECT_DIR$/src/main/java/ActionBonus.java" />
-      <change type="MOVED" beforePath="D:\raic\src\main\java\model\Env.java" afterPath="$PROJECT_DIR$/src/main/java/Env.java" />
-      <change type="MOVED" beforePath="D:\raic\src\main\java\model\Variant.java" afterPath="$PROJECT_DIR$/src/main/java/Variant.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ActionFire.java" afterPath="$PROJECT_DIR$/src/main/java/ActionFire.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Env.java" afterPath="$PROJECT_DIR$/src/main/java/Env.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Variant.java" afterPath="$PROJECT_DIR$/src/main/java/Variant.java" />
     </list>
     <ignored path="java-cgdk.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -70,9 +68,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/MyStrategy.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="11" column="16" selection-start="235" selection-end="235" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -80,7 +76,7 @@
       <file leaf-file-name="Env.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Env.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="65" column="27" selection-start="1611" selection-end="1611" vertical-scroll-proportion="0.0">
+            <state line="22" column="70" selection-start="529" selection-end="529" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -91,18 +87,16 @@
       <file leaf-file-name="ActionFire.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/ActionFire.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="23" selection-start="239" selection-end="249" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state line="27" column="73" selection-start="739" selection-end="739" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Action.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="Action.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Action.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="26" selection-start="317" selection-end="317" vertical-scroll-proportion="0.16558442">
+            <state line="12" column="26" selection-start="317" selection-end="317" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -112,9 +106,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/ActionBonus.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="26" column="49" selection-start="819" selection-end="819" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -122,7 +114,16 @@
       <file leaf-file-name="Variant.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Variant.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="0" selection-start="16" selection-end="16" vertical-scroll-proportion="0.0">
+            <state line="12" column="56" selection-start="289" selection-end="289" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ActionAim.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ActionAim.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="7" column="30" selection-start="145" selection-end="145" vertical-scroll-proportion="0.11038961">
               <folding />
             </state>
           </provider>
@@ -145,11 +146,13 @@
         <option value="$PROJECT_DIR$/src/main/java/model/Action.java" />
         <option value="$PROJECT_DIR$/src/main/java/model/ActionBonus.java" />
         <option value="$PROJECT_DIR$/src/main/java/model/Variant.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Env.java" />
         <option value="$PROJECT_DIR$/src/main/java/ActionBonus.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ActionFire.java" />
         <option value="$PROJECT_DIR$/src/main/java/MyStrategy.java" />
         <option value="$PROJECT_DIR$/src/main/java/Action.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Variant.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Env.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ActionFire.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ActionAim.java" />
       </list>
     </option>
   </component>
@@ -209,6 +212,16 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -251,16 +264,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope">
-        <subPane subId="Project Files">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="PackagesPane">
         <subPane>
           <PATH>
@@ -292,9 +295,14 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="dynamic.classpath" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="dynamic.classpath" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="Env" />
+    </key>
   </component>
   <component name="RunManager" selected="Application.Runner">
     <configuration default="false" name="Runner" type="Application" factoryName="Application" temporary="true">
@@ -343,24 +351,6 @@
         <option name="Maven.BeforeRunTask" enabled="false" />
       </method>
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <method>
-        <option name="AntTarget" enabled="false" />
-        <option name="BuildArtifacts" enabled="false" />
-        <option name="Make" enabled="true" />
-        <option name="Maven.BeforeRunTask" enabled="false" />
-      </method>
-    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="" />
@@ -387,6 +377,24 @@
       <envs />
       <properties />
       <listeners />
+      <method>
+        <option name="AntTarget" enabled="false" />
+        <option name="BuildArtifacts" enabled="false" />
+        <option name="Make" enabled="true" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method>
         <option name="AntTarget" enabled="false" />
         <option name="BuildArtifacts" enabled="false" />
@@ -489,7 +497,11 @@
       <created>1351939768998</created>
       <updated>1351939768998</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary=" Action для бонусов и стрельбы - примитивный вариант">
+      <created>1351958558228</created>
+      <updated>1351958558228</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -558,7 +570,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="первая версия Action и Variant, без конкретных реализаций" />
+    <option name="LAST_COMMIT_MESSAGE" value=" Action для бонусов и стрельбы - примитивный вариант" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -575,6 +587,7 @@
     <MESSAGE value="тестовые пробежки" />
     <MESSAGE value="рефакторинг к будущей архитектуре" />
     <MESSAGE value="первая версия Action и Variant, без конкретных реализаций" />
+    <MESSAGE value=" Action для бонусов и стрельбы - примитивный вариант" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -599,52 +612,43 @@
         <state line="121" column="38" selection-start="3325" selection-end="3325" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Variant.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/MyStrategy.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="16" selection-end="16" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ActionBonus.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="49" selection-start="819" selection-end="819" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Env.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="65" column="27" selection-start="1611" selection-end="1611" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
+        <state line="11" column="16" selection-start="235" selection-end="235" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ActionFire.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="23" selection-start="239" selection-end="249" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/MyStrategy.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="16" selection-start="235" selection-end="235" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
+        <state line="27" column="73" selection-start="739" selection-end="739" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Action.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="26" selection-start="317" selection-end="317" vertical-scroll-proportion="0.16558442">
+        <state line="12" column="26" selection-start="317" selection-end="317" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ActionBonus.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="49" selection-start="819" selection-end="819" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Variant.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="56" selection-start="289" selection-end="289" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Env.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="70" selection-start="529" selection-end="529" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ActionAim.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="30" selection-start="145" selection-end="145" vertical-scroll-proportion="0.11038961">
           <folding />
         </state>
       </provider>
