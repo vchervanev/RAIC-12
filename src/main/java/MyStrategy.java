@@ -3,13 +3,16 @@ import model.*;
 import java.util.ArrayList;
 
 import static java.lang.StrictMath.*;
+import static java.util.Collections.sort;
 
 public final class MyStrategy implements Strategy {
 
     static Env env = new Env();
 
     int id = 0;
-    ArrayList<Long> tankIds = new ArrayList<Long>();
+//    ArrayList<Long> tankIds = new ArrayList<Long>();
+    ArrayList<Action> actions = new ArrayList<Action>();
+
 
     @Override
     public void move(Tank self, World world, Move move) {
@@ -26,6 +29,20 @@ public final class MyStrategy implements Strategy {
 
         //move.setTurretTurn(PI);
         //move.setFireType(FireType.PREMIUM_PREFERRED);
+
+        for(Action action : actions) {
+            action.estimate();
+        }
+        sort(actions);
+
+        int index = 0;
+        for(Action action : actions) {
+            if (index++ == 0){
+                action.perform();
+            } else {
+                action.tryPerformSecondary();
+            }
+        }
 
     }
 
