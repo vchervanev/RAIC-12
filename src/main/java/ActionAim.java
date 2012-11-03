@@ -60,17 +60,17 @@ public class ActionAim extends Action{
             env.move.setTurretTurn(angle);
             return;
         }  else {
-            env.move.setTurretTurn(env.self.getTurretTurnSpeed());
+            env.move.setTurretTurn(signum(angle)*env.self.getTurretTurnSpeed());
             angle -= signum(angle)*env.self.getTurretTurnSpeed();
         }
         double leftPower = 0;
         double rightPower = 0;
         if(angle>0) {
-            leftPower = 1;
-            rightPower = -1;
+            leftPower = 0.5;
+            rightPower = -0.5;
         } else {
-            leftPower = -1;
-            rightPower = 1;
+            leftPower = -0.5;
+            rightPower = 0.5;
         }
         env.move.setLeftTrackPower(leftPower);
         env.move.setRightTrackPower(rightPower);
