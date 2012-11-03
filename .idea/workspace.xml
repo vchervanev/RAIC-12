@@ -2,10 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4dddb735-8945-403b-b4c4-03f6ebc944ca" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ActionAim.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ActionAim.java" afterPath="$PROJECT_DIR$/src/main/java/ActionAim.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ActionFire.java" afterPath="$PROJECT_DIR$/src/main/java/ActionFire.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Env.java" afterPath="$PROJECT_DIR$/src/main/java/Env.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/MyStrategy.java" afterPath="$PROJECT_DIR$/src/main/java/MyStrategy.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/Variant.java" afterPath="$PROJECT_DIR$/src/main/java/Variant.java" />
     </list>
     <ignored path="java-cgdk.iws" />
@@ -24,6 +25,34 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
+    <line_breakpoints>
+      <breakpoint url="file://$PROJECT_DIR$/src/main/java/ActionAim.java" line="56" class="ActionAim" package="">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/main/java/ActionAim.java" line="21" class="ActionAim" package="">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+    </line_breakpoints>
     <breakpoint_any>
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -67,7 +96,7 @@
       <file leaf-file-name="MyStrategy.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/MyStrategy.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="16" selection-start="235" selection-end="235" vertical-scroll-proportion="0.0">
+            <state line="17" column="35" selection-start="468" selection-end="468" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -76,7 +105,7 @@
       <file leaf-file-name="Env.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Env.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="70" selection-start="529" selection-end="529" vertical-scroll-proportion="0.0">
+            <state line="22" column="76" selection-start="528" selection-end="528" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -87,7 +116,7 @@
       <file leaf-file-name="ActionFire.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/ActionFire.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="27" column="73" selection-start="739" selection-end="739" vertical-scroll-proportion="0.0">
+            <state line="28" column="46" selection-start="786" selection-end="786" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -114,7 +143,7 @@
       <file leaf-file-name="Variant.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Variant.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="56" selection-start="289" selection-end="289" vertical-scroll-proportion="0.0">
+            <state line="21" column="14" selection-start="693" selection-end="703" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -123,7 +152,7 @@
       <file leaf-file-name="ActionAim.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/ActionAim.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="30" selection-start="145" selection-end="145" vertical-scroll-proportion="0.11038961">
+            <state line="44" column="28" selection-start="1195" selection-end="1195" vertical-scroll-proportion="0.44155845">
               <folding />
             </state>
           </provider>
@@ -147,11 +176,11 @@
         <option value="$PROJECT_DIR$/src/main/java/model/ActionBonus.java" />
         <option value="$PROJECT_DIR$/src/main/java/model/Variant.java" />
         <option value="$PROJECT_DIR$/src/main/java/ActionBonus.java" />
-        <option value="$PROJECT_DIR$/src/main/java/MyStrategy.java" />
         <option value="$PROJECT_DIR$/src/main/java/Action.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Variant.java" />
+        <option value="$PROJECT_DIR$/src/main/java/MyStrategy.java" />
         <option value="$PROJECT_DIR$/src/main/java/Env.java" />
         <option value="$PROJECT_DIR$/src/main/java/ActionFire.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Variant.java" />
         <option value="$PROJECT_DIR$/src/main/java/ActionAim.java" />
       </list>
     </option>
@@ -501,7 +530,11 @@
       <created>1351958558228</created>
       <updated>1351958558228</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary=" Action для прицеливания - никакоц вариант, не подключен + небольшой рефакторинг&#10;">
+      <created>1351964169579</created>
+      <updated>1351964169579</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -512,7 +545,7 @@
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35434008" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4100877" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -521,7 +554,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2546652" sideWeight="0.78289473" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21844128" sideWeight="0.78289473" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21710527" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -570,7 +603,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value=" Action для бонусов и стрельбы - примитивный вариант" />
+    <option name="LAST_COMMIT_MESSAGE" value=" Action для прицеливания - никакоц вариант, не подключен + небольшой рефакторинг&#10;" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -588,6 +621,7 @@
     <MESSAGE value="рефакторинг к будущей архитектуре" />
     <MESSAGE value="первая версия Action и Variant, без конкретных реализаций" />
     <MESSAGE value=" Action для бонусов и стрельбы - примитивный вариант" />
+    <MESSAGE value=" Action для прицеливания - никакоц вариант, не подключен + небольшой рефакторинг&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -612,43 +646,65 @@
         <state line="121" column="38" selection-start="3325" selection-end="3325" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/MyStrategy.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="16" selection-start="235" selection-end="235" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ActionFire.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="73" selection-start="739" selection-end="739" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Action.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="12" column="26" selection-start="317" selection-end="317" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ActionBonus.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/model/Tank.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="49" selection-start="819" selection-end="819" vertical-scroll-proportion="0.0" />
+        <state line="143" column="18" selection-start="4046" selection-end="4046" vertical-scroll-proportion="0.3322034">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Variant.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/model/Move.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="56" selection-start="289" selection-end="289" vertical-scroll-proportion="0.0" />
+        <state line="74" column="16" selection-start="2513" selection-end="2513" vertical-scroll-proportion="0.50508475">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/MyStrategy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="35" selection-start="468" selection-end="468" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Env.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="70" selection-start="529" selection-end="529" vertical-scroll-proportion="0.0">
+        <state line="22" column="76" selection-start="528" selection-end="528" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Variant.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="14" selection-start="693" selection-end="703" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ActionBonus.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="49" selection-start="819" selection-end="819" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ActionFire.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="46" selection-start="786" selection-end="786" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ActionAim.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="30" selection-start="145" selection-end="145" vertical-scroll-proportion="0.11038961">
+        <state line="44" column="28" selection-start="1195" selection-end="1195" vertical-scroll-proportion="0.44155845">
           <folding />
         </state>
       </provider>

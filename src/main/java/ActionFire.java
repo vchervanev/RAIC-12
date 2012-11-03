@@ -22,11 +22,11 @@ public class ActionFire extends Action{
         }
         Tank[] tanks = env.world.getTanks();
         for(Tank tank : tanks) {
-            if (!Env.isTarget(tank)) {
+            if (!env.isTarget(tank)) {
                 continue;
             }
             // TODO выбрать лучший танк для стрельбы (сейчас - последний)
-            if (abs(env.self.getAngleTo(tank)) < PI/180) {
+            if (abs(env.self.getTurretAngleTo(tank)) < PI/180) {
                 variant = Variant.fireAndKill;
                 fireType = FireType.PREMIUM_PREFERRED;
             }

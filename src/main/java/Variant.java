@@ -19,5 +19,6 @@ public enum Variant {
     aimSlow,  // нужно много времени для прицеливания
     bonusFarAway, // далекий бонус
     fireHardlyKill, // стрельба издалекаааа
+    aimSlowest, // долгий перезаряд
     none
 }

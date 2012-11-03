@@ -3,6 +3,7 @@ import model.Tank;
 
 import static java.lang.Math.PI;
 import static java.lang.Math.abs;
+import static java.lang.Math.signum;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,40 +13,66 @@ import static java.lang.Math.abs;
  * Экшн Прицеливания
  */
 public class ActionAim extends Action{
-    public static final int NOT_A_SPEED = 9999;
-    double leftSpeed = NOT_A_SPEED;
-    double rightSpeed = NOT_A_SPEED;
-    double angleValue = NOT_A_SPEED;
 
+
+    private Tank target;
 
     @Override
     public void estimate() {
         Tank[] tanks = env.world.getTanks();
-        Tank target = null;
-        double cost = 0;
+        target = null;
+        double currentCost = 0;
         for(Tank tank : tanks) {
-            if (!Env.isTarget(tank)) {
+            if (!env.isTarget(tank)) {
                 continue;
             }
-            double delta = abs(env.self.getAngleTo(tank));
-            if (delta < 3*PI/180) {
-                variant = Variant.aimFast;
+            double cost = env.self.getDistanceTo(tank);
+            cost *= cost;
+            double angleCost = 400*abs(env.self.getTurretAngleTo(tank))/PI;
+            angleCost *= angleCost;
+            cost += angleCost;
+
+            if (target == null || currentCost > cost) {
+                target = tank;
+                currentCost = cost;
             }
+        }
+        // TODO выделить, когда достаточно повернуть пушку
+        if (target == null) {
+            variant = Variant.none;
+        } else if (env.self.getRemainingReloadingTime() > 50){
+            variant = Variant.aimSlowest;
+        } else {
+            if (currentCost < 200000)
+                variant = Variant.aimFast;
+            else if (currentCost < 400000)
+                variant = Variant.aimAverage;
+            else
+                variant = Variant.aimSlow;
         }
     }
 
     @Override
     public void perform() {
-        if(leftSpeed != NOT_A_SPEED) {
-            env.move.setLeftTrackPower(leftSpeed);
+        assert target != null;
+        double angle = env.self.getTurretAngleTo(target);
+        if (abs(angle) < env.self.getTurretTurnSpeed()) {
+            env.move.setTurretTurn(angle);
+            return;
+        }  else {
+            env.move.setTurretTurn(env.self.getTurretTurnSpeed());
+            angle -= signum(angle)*env.self.getTurretTurnSpeed();
         }
-
-        if(rightSpeed != NOT_A_SPEED) {
-            env.move.setRightTrackPower(rightSpeed);
+        double leftPower = 0;
+        double rightPower = 0;
+        if(angle>0) {
+            leftPower = 1;
+            rightPower = -1;
+        } else {
+            leftPower = -1;
+            rightPower = 1;
         }
-
-        if(angleValue != NOT_A_SPEED) {
-            env.move.setTurretTurn(angleValue);
-        }
+        env.move.setLeftTrackPower(leftPower);
+        env.move.setRightTrackPower(rightPower);
     }
 }
