@@ -1,5 +1,3 @@
-package model;
-
 /**
  * Created with IntelliJ IDEA.
  * User: che
@@ -8,6 +6,7 @@ package model;
  * Возможное действие танка на поле боя
  */
 public abstract class Action implements Comparable<Action> {
+    static Env env = MyStrategy.env;
     Variant variant = Variant.none;
 
     public Variant getVariant() {
@@ -18,7 +17,7 @@ public abstract class Action implements Comparable<Action> {
     public void tryPerformSecondary() {}
 
     public int compareTo(Action o) {
-        return  o.getVariant().ordinal() - this.getVariant().ordinal();
+        return  this.getVariant().ordinal() - o.getVariant().ordinal();
     }
 
 

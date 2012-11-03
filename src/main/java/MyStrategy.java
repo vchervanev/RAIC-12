@@ -7,12 +7,15 @@ import static java.util.Collections.sort;
 
 public final class MyStrategy implements Strategy {
 
-    static Env env = new Env();
+    public static Env env = new Env();
 
     int id = 0;
 //    ArrayList<Long> tankIds = new ArrayList<Long>();
     ArrayList<Action> actions = new ArrayList<Action>();
-
+    {
+        actions.add(new ActionBonus());
+        actions.add(new ActionFire());
+    }
 
     @Override
     public void move(Tank self, World world, Move move) {
@@ -22,7 +25,7 @@ public final class MyStrategy implements Strategy {
 //        if (unit == null) {
 //            unit = getTank(0);
 //        }
-        directMoveTo(unit);
+        //directMoveTo(unit);
 
 //        analyzeAccelerate();
 //        analyzeRotation();
@@ -75,42 +78,6 @@ public final class MyStrategy implements Strategy {
         return TankType.MEDIUM;
     }
 
-    public void directMoveTo(Unit unit) {
-        if (unit == null) {
-            return;
-        }
-        directMoveTo(unit.getX(), unit.getY());
-    }
-
-    public void directMoveTo(double x, double y) {
-        final double delta = PI/180;
-        double angle = env.self.getAngleTo(x, y);
-        double leftPower;
-        double rightPower;
-        if (abs(angle) < delta) {
-            leftPower = 1;
-            rightPower = 1;
-        } else if (angle > delta) {
-            if (angle > PI/4) {
-                leftPower = 0.75;
-                rightPower = -1;
-            } else {
-                leftPower = 1;
-                rightPower = 1 - angle/PI;
-            }
-        } else {
-            if (angle < PI/4) {
-                leftPower = -1;
-                rightPower = 0.75;
-            } else {
-                leftPower = 1 + angle/PI;
-                rightPower = 1;
-            }
-        }
-
-        env.move.setLeftTrackPower(leftPower);
-        env.move.setRightTrackPower(rightPower);
-    }
 
     public Bonus getNearestBonus() {
         Bonus result = null;

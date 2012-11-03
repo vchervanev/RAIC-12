@@ -1,4 +1,7 @@
-package model;
+import model.*;
+
+import static java.lang.StrictMath.PI;
+import static java.lang.StrictMath.abs;
 
 /**
  * Created with IntelliJ IDEA.
@@ -48,5 +51,41 @@ public class Env {
         return null;
     }
 
+    public void directMoveTo(Unit unit) {
+        if (unit == null) {
+            return;
+        }
+        directMoveTo(unit.getX(), unit.getY());
+    }
+
+    public void directMoveTo(double x, double y) {
+        final double delta = PI/180;
+        double angle = self.getAngleTo(x, y);
+        double leftPower;
+        double rightPower;
+        if (abs(angle) < delta) {
+            leftPower = 1;
+            rightPower = 1;
+        } else if (angle > delta) {
+            if (angle > PI/4) {
+                leftPower = 0.75;
+                rightPower = -1;
+            } else {
+                leftPower = 1;
+                rightPower = 1 - angle/PI;
+            }
+        } else {
+            if (angle < PI/4) {
+                leftPower = -1;
+                rightPower = 0.75;
+            } else {
+                leftPower = 1 + angle/PI;
+                rightPower = 1;
+            }
+        }
+
+        move.setLeftTrackPower(leftPower);
+        move.setRightTrackPower(rightPower);
+    }
 
 }

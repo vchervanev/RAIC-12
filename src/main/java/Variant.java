@@ -1,4 +1,5 @@
-package model;
+import model.*;
+
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,8 +12,11 @@ public enum Variant {
     fireAndKill, // стрельба с близкого расстояния
     aimFast, // немного прицелиться, дальше будет стрельба с близкого расстояния,
     fireTryKill, // стрельба со среднего расстояния
+    bonusNearly, // близкий бонус
     aimAverage, // среднее время для прицеливания
+    bonusAverage, // бонус на средней дистанции
     aimSlow,  // нужно много времени для прицеливания
+    bonusFarAway, // далекий бонус
     fireHardlyKill, // стрельба издалекаааа
     none
 }
