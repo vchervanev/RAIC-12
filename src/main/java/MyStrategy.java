@@ -50,6 +50,21 @@ public final class MyStrategy implements Strategy {
             }
         }
 
+//        analyzeShells();
+
+        // счетчик тиков
+        id++;
+
+    }
+
+    private void analyzeShells() {
+        for(Shell shell : env.world.getShells()) {
+            System.out.printf("%d\t%d\t%f\t%f\t%f\t%f\t%s\n",
+                    id, shell.getId(),
+                    shell.getX(), shell.getY(),
+                    shell.getSpeedX(), shell.getSpeedY(),
+                    shell.getType().toString());
+        }
     }
 
     private void analyzeRotation() {
