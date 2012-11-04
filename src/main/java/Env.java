@@ -2,6 +2,7 @@ import model.*;
 
 import static java.lang.StrictMath.PI;
 import static java.lang.StrictMath.abs;
+import static java.lang.StrictMath.round;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,6 +19,14 @@ public class Env {
     public World world;
     public Tank oldSelf = null;
     public Tank self;
+    public double moveSpeed = 0;
+    public double rotationSpeed = 0;
+    public double rotationSpeedMax = 0;
+
+    double oldX;
+    double oldY;
+    double oldAngle;
+    private String tmpOutOld;
 
     public boolean isTarget(Tank tank) {
         return tank.getCrewHealth() != 0 && tank.getHullDurability() != 0 &&
@@ -34,6 +43,8 @@ public class Env {
         this.self = self;
         this.world = world;
 
+        calcSpeed();
+
         if (!init)
             return;
 
@@ -44,6 +55,16 @@ public class Env {
 //        }
 
         init = false;
+    }
+
+    private void calcSpeed() {
+        if (world.getTick() < 2) return;
+        this.moveSpeed = self.getDistanceTo(oldX, oldY);
+        oldX = self.getX();
+        oldY = self.getY();
+        this.rotationSpeed = abs(oldAngle - self.getAngle());
+        oldAngle = self.getAngle();
+        if (rotationSpeed > rotationSpeedMax) rotationSpeedMax = rotationSpeed;
     }
 
     private Tank getTank(int index) {
@@ -64,33 +85,69 @@ public class Env {
     }
 
     public void directMoveTo(double x, double y) {
-        final double delta = PI/180;
+        final double delta = PI / 4;
         double angle = self.getAngleTo(x, y);
+        double distance = self.getDistanceTo(x, y);
+        double speedX = 1;
+
+//        world.getWidth()
+        if (distance < moveSpeed) {
+//            speedX = distance / moveSpeed;
+        }
         double leftPower;
         double rightPower;
-        if (abs(angle) < delta) {
-            leftPower = 1;
-            rightPower = 1;
-        } else if (angle > delta) {
-            if (angle > PI/4) {
+        if (angle > 0) {
+            if (angle > delta) {
                 leftPower = 0.75;
                 rightPower = -1;
+//                rotationSpeedMax = 0;
             } else {
                 leftPower = 1;
-                rightPower = 1 - angle/PI;
+                rightPower = 1 - (2.25 * angle / rotationSpeedMax);
             }
         } else {
-            if (angle < PI/4) {
+            if (angle < -delta) {
                 leftPower = -1;
                 rightPower = 0.75;
+//                rotationSpeedMax = 0;
             } else {
-                leftPower = 1 + angle/PI;
+                leftPower = 1 + (2.25 * angle / rotationSpeedMax);
                 rightPower = 1;
             }
         }
 
+        if (leftPower < -1) {
+            rightPower = 2 + leftPower;
+            leftPower = -1;
+        }
+        if (rightPower < -1) {
+            leftPower = 2 + rightPower;
+            rightPower = -1;
+        }
+
+        leftPower = leftPower * speedX;
+        rightPower = rightPower * speedX;
+
         move.setLeftTrackPower(leftPower);
         move.setRightTrackPower(rightPower);
+        String tmpOut = roundX(angle) + " " + roundX(leftPower) + " " + roundX( rightPower) + " " + isBorder();
+        if (!tmpOut.equals(tmpOutOld)) {
+            System.out.println(tmpOut);
+            tmpOutOld = tmpOut;
+        }
+    }
+
+    private double roundX(double x) {
+        return round(x*100.0)/100.0;
+    }
+
+
+    private boolean isBorder() {
+        return (self.getX() < self.getHeight()
+                || self.getY() < self.getWidth()
+                || world.getWidth() < self.getX() + self.getWidth()
+                || world.getHeight() < self.getY() + self.getWidth()
+        );
     }
 
 }

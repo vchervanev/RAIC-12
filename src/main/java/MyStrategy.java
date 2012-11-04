@@ -13,6 +13,7 @@ public final class MyStrategy implements Strategy {
 //    ArrayList<Long> tankIds = new ArrayList<Long>();
     ArrayList<Action> actions = new ArrayList<Action>();
     {
+        actions.add(new RandomMove());
         actions.add(new ActionBonus());
         actions.add(new ActionFire());
         actions.add(new ActionAim());
