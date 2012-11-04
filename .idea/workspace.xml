@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4dddb735-8945-403b-b4c4-03f6ebc944ca" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ActionAim.java" afterPath="$PROJECT_DIR$/src/main/java/ActionAim.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ActionBonus.java" afterPath="$PROJECT_DIR$/src/main/java/ActionBonus.java" />
     </list>
     <ignored path="java-cgdk.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -93,16 +93,16 @@
       <file leaf-file-name="Action.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Action.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="26" selection-start="317" selection-end="317" vertical-scroll-proportion="0.0">
+            <state line="16" column="35" selection-start="413" selection-end="432" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ActionBonus.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="ActionBonus.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/ActionBonus.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="49" selection-start="819" selection-end="819" vertical-scroll-proportion="0.0">
+            <state line="52" column="70" selection-start="1728" selection-end="1728" vertical-scroll-proportion="0.30847457">
               <folding />
             </state>
           </provider>
@@ -111,16 +111,16 @@
       <file leaf-file-name="Variant.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Variant.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="14" selection-start="693" selection-end="703" vertical-scroll-proportion="0.0">
+            <state line="12" column="4" selection-start="237" selection-end="248" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ActionAim.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="ActionAim.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/ActionAim.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="61" column="17" selection-start="1712" selection-end="1712" vertical-scroll-proportion="0.38311687">
+            <state line="85" column="42" selection-start="2563" selection-end="2563" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -143,13 +143,13 @@
         <option value="$PROJECT_DIR$/src/main/java/model/Action.java" />
         <option value="$PROJECT_DIR$/src/main/java/model/ActionBonus.java" />
         <option value="$PROJECT_DIR$/src/main/java/model/Variant.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ActionBonus.java" />
         <option value="$PROJECT_DIR$/src/main/java/Action.java" />
         <option value="$PROJECT_DIR$/src/main/java/MyStrategy.java" />
         <option value="$PROJECT_DIR$/src/main/java/Env.java" />
         <option value="$PROJECT_DIR$/src/main/java/ActionFire.java" />
         <option value="$PROJECT_DIR$/src/main/java/Variant.java" />
         <option value="$PROJECT_DIR$/src/main/java/ActionAim.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ActionBonus.java" />
       </list>
     </option>
   </component>
@@ -506,7 +506,11 @@
       <created>1351970135743</created>
       <updated>1351970135743</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary=" экшн для прицеливания улучшен незначительно">
+      <created>1351971050254</created>
+      <updated>1351971050254</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -575,7 +579,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Слабенький экшн для прицеливания с багами, для дебага лучше отключать + рефакторинг" />
+    <option name="LAST_COMMIT_MESSAGE" value=" экшн для прицеливания улучшен незначительно" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -595,6 +599,7 @@
     <MESSAGE value=" Action для бонусов и стрельбы - примитивный вариант" />
     <MESSAGE value=" Action для прицеливания - никакоц вариант, не подключен + небольшой рефакторинг&#10;" />
     <MESSAGE value="Слабенький экшн для прицеливания с багами, для дебага лучше отключать + рефакторинг" />
+    <MESSAGE value=" экшн для прицеливания улучшен незначительно" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -617,11 +622,6 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/model/Unit.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="121" column="38" selection-start="3325" selection-end="3325" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Action.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="26" selection-start="317" selection-end="317" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/model/Tank.java">
@@ -654,20 +654,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Variant.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="14" selection-start="693" selection-end="703" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ActionBonus.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="49" selection-start="819" selection-end="819" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ActionFire.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="28" column="46" selection-start="786" selection-end="786" vertical-scroll-proportion="0.0">
@@ -675,9 +661,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Action.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="35" selection-start="413" selection-end="432" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ActionAim.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="61" column="17" selection-start="1712" selection-end="1712" vertical-scroll-proportion="0.38311687">
+        <state line="85" column="42" selection-start="2563" selection-end="2563" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Variant.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="4" selection-start="237" selection-end="248" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ActionBonus.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="52" column="70" selection-start="1728" selection-end="1728" vertical-scroll-proportion="0.30847457">
           <folding />
         </state>
       </provider>

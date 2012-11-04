@@ -23,6 +23,15 @@ public class ActionBonus extends Action {
             double cost = env.self.getDistanceTo(bonus);
             // штраф за угол поворота
             cost += 250*abs(env.self.getAngleTo(bonus))/Math.PI;
+            // бонус нужному бонусу
+            if (bonus.getType() == BonusType.MEDIKIT){
+                if (env.self.getCrewHealth() < 70)
+                    cost -= 100;
+                else if (env.self.getCrewHealth() < 51)
+                    cost -= 250;
+                else if (env.self.getCrewHealth() < 40)
+                    cost -= 400;
+            }
             // TODO учитывать текущую скорость (линейную и угловую)
             // TODO учитывать препятствия на пути
             if (target == null || cost < currentCost){
@@ -32,12 +41,20 @@ public class ActionBonus extends Action {
         }
         if (target == null){
             variant = Variant.none;
+            return;
         } else if (currentCost < 200) {
             variant = Variant.bonusNearly;
         } else if (currentCost < 600) {
             variant = Variant.bonusAverage;
         } else {
             variant = Variant.bonusFarAway;
+        }
+
+        if (target.getType() == BonusType.MEDIKIT && env.self.getCrewHealth() < 60) {
+            variant = Variant.bonusUrgent;
+        }
+        if (target.getType() == BonusType.REPAIR_KIT && env.self.getHullDurability() < 70) {
+            variant = Variant.bonusUrgent;
         }
     }
 
