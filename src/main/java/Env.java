@@ -21,14 +21,11 @@ public class Env {
     public Tank self;
     public double moveSpeed = 0;
     public double rotationSpeed = 0;
-    public double rotationSpeedMax = 0.062;
+    public double rotationSpeedMax = 0;
     public double rotationAcceleration = 0;
 
     public Point[] nooks = new Point[4];
 
-    double oldX;
-    double oldY;
-    double oldAngle;
     private String tmpOutOld;
     private double oldRotationSpeed;
     private double dimention;
@@ -73,15 +70,13 @@ public class Env {
     }
 
     private void calcSpeed() {
-        if (world.getTick() > 1) {
-            this.moveSpeed = self.getDistanceTo(oldX, oldY);
-            this.rotationSpeed = abs(oldAngle - abs(self.getAngle()));
-            rotationAcceleration = rotationSpeed - oldRotationSpeed;
-//            if (rotationSpeed > rotationSpeedMax) rotationSpeedMax = rotationSpeed;
-        }
-        oldX = self.getX();
-        oldY = self.getY();
-        oldAngle = abs(self.getAngle());
+        if (init) return;
+        moveSpeed = self.getDistanceTo(oldSelf);
+        rotationSpeed = abs(oldSelf.getAngle() - self.getAngle());
+        if (rotationSpeed > PI) rotationSpeed = 2 * PI - rotationSpeed;
+        rotationAcceleration = rotationSpeed - oldRotationSpeed;
+        if (rotationSpeed > rotationSpeedMax) rotationSpeedMax = rotationSpeed;
+        oldRotationSpeed = rotationSpeed;
         oldRotationSpeed = rotationSpeed;
     }
 
@@ -152,10 +147,10 @@ public class Env {
                 rightPower = 0.75;
             }
         } else {
-            if (angle > delta) {         // если угол сильно положительный,
+            if (angle > delta) {
                 leftPower = 0.75;
                 rightPower = -1;
-            } else if (angle < -delta) {  // если угол сильно отрицательный,
+            } else if (angle < -delta) {
                 leftPower = -1;
                 rightPower = 0.75;
             } else {
