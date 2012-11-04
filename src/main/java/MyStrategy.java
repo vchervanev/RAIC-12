@@ -3,6 +3,7 @@ import model.*;
 import java.util.ArrayList;
 
 import static java.lang.StrictMath.*;
+import static java.lang.Thread.sleep;
 import static java.util.Collections.sort;
 
 public final class MyStrategy implements Strategy {
@@ -22,6 +23,10 @@ public final class MyStrategy implements Strategy {
 
     @Override
     public void move(Tank self, World world, Move move) {
+//        try {
+//            sleep(50);
+//        } catch (InterruptedException e) {}
+
         env.init(self, world, move);
 
         Unit unit = getNearestBonus();
@@ -49,6 +54,17 @@ public final class MyStrategy implements Strategy {
                 action.tryPerformSecondary();
             }
         }
+
+//        for(Shell shell : env.world.getShells()) {
+//            int ticks = BulletHelper.checkHit(shell, env.self);
+//            if (ticks == 0) {
+//                ticks = BulletHelper.checkHit(shell, env.self);
+//            }
+//            if (ticks != -1) {
+//                System.out.printf("%d\t%d\n", shell.getId(), ticks);
+//                analyzeShells();
+//            }
+//        }
 
 //        analyzeShells();
 

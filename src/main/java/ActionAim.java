@@ -26,6 +26,8 @@ public class ActionAim extends Action{
             if (!env.isTarget(tank)) {
                 continue;
             }
+
+
             double cost = env.self.getDistanceTo(tank);
             cost *= cost;
             double angleCost = 400*abs(env.self.getTurretAngleTo(tank))/PI;
@@ -56,7 +58,7 @@ public class ActionAim extends Action{
     public void perform() {
         assert target != null;
         // TODO убрать копипаст из частичного эпляя
-        double angle = env.self.getTurretAngleTo(target);
+        double angle = env.self.getTurretAngleTo(target)*1.05;
         if (abs(angle) < env.self.getTurretTurnSpeed()) {
             env.move.setTurretTurn(angle);
             return;
