@@ -5,7 +5,7 @@ import model.Tank;
  * User: User
  * Date: 04.11.12
  * Time: 17:43
- * To change this template use File | Settings | File Templates.
+ * Экшен ныканья по углам
  */
 public class ActionHide extends Action {
     @Override
@@ -20,6 +20,8 @@ public class ActionHide extends Action {
         }
         if ((enemyCount == 2 || (enemyCount == 4 && totalDistance <  1200)) && env.self.getDistanceTo(0,0) > 80) {
             variant = Variant.hide;
+        } else {
+            variant = Variant.none;
         }
     }
 
