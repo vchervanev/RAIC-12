@@ -27,11 +27,11 @@ public class ActionBonus extends Action {
             // бонус нужному бонусу
             if (bonus.getType() == BonusType.MEDIKIT){
                 if (env.self.getCrewHealth() < 70)
-                    cost -= 100;
+                    cost -= 200;
                 else if (env.self.getCrewHealth() < 51)
-                    cost -= 250;
+                    cost -= 500;
                 else if (env.self.getCrewHealth() < 40)
-                    cost -= 400;
+                    cost -= 800;
             }
             // TODO учитывать текущую скорость (линейную и угловую)
             // TODO учитывать препятствия на пути
