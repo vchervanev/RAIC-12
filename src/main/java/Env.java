@@ -21,12 +21,14 @@ public class Env {
     public Tank self;
     public double moveSpeed = 0;
     public double rotationSpeed = 0;
-    public double rotationSpeedMax = 0;
+    public double rotationSpeedMax = 0.062;
+    public double rotationAcceleration = 0;
 
     double oldX;
     double oldY;
     double oldAngle;
     private String tmpOutOld;
+    private double oldRotationSpeed;
 
     public boolean isTarget(Tank tank) {
         return tank.getCrewHealth() != 0 && tank.getHullDurability() != 0 &&
@@ -58,13 +60,16 @@ public class Env {
     }
 
     private void calcSpeed() {
-        if (world.getTick() < 2) return;
-        this.moveSpeed = self.getDistanceTo(oldX, oldY);
+        if (world.getTick() > 1) {
+            this.moveSpeed = self.getDistanceTo(oldX, oldY);
+            this.rotationSpeed = abs(oldAngle - abs(self.getAngle()));
+            rotationAcceleration = rotationSpeed - oldRotationSpeed;
+//            if (rotationSpeed > rotationSpeedMax) rotationSpeedMax = rotationSpeed;
+        }
         oldX = self.getX();
         oldY = self.getY();
-        this.rotationSpeed = abs(oldAngle - self.getAngle());
-        oldAngle = self.getAngle();
-        if (rotationSpeed > rotationSpeedMax) rotationSpeedMax = rotationSpeed;
+        oldAngle = abs(self.getAngle());
+        oldRotationSpeed = rotationSpeed;
     }
 
     private Tank getTank(int index) {
@@ -77,6 +82,17 @@ public class Env {
         return null;
     }
 
+    public void rotateToAngle(double angle) {
+        move.setLeftTrackPower(-1);
+        move.setRightTrackPower(0.75);
+        String tmpOut = roundX(self.getAngle()) + " " + " " + rotationSpeedMax+ " " + rotationAcceleration;
+        if (!tmpOut.equals(tmpOutOld)) {
+            System.out.println(tmpOut);
+            tmpOutOld = tmpOut;
+        }
+    }
+
+
     public void directMoveTo(Unit unit) {
         if (unit == null) {
             return;
@@ -85,56 +101,26 @@ public class Env {
     }
 
     public void directMoveTo(double x, double y) {
-        final double delta = PI / 4;
+        final double delta = PI / 6;
         double angle = self.getAngleTo(x, y);
         double distance = self.getDistanceTo(x, y);
-        double speedX = 1;
 
-//        world.getWidth()
-        if (distance < moveSpeed) {
-//            speedX = distance / moveSpeed;
-        }
         double leftPower;
         double rightPower;
-        if (angle > 0) {
-            if (angle > delta) {
-                leftPower = 0.75;
-                rightPower = -1;
-//                rotationSpeedMax = 0;
-            } else {
-                leftPower = 1;
-                rightPower = 1 - (2.25 * angle / rotationSpeedMax);
-            }
-        } else {
-            if (angle < -delta) {
-                leftPower = -1;
-                rightPower = 0.75;
-//                rotationSpeedMax = 0;
-            } else {
-                leftPower = 1 + (2.25 * angle / rotationSpeedMax);
-                rightPower = 1;
-            }
-        }
 
-        if (leftPower < -1) {
-            rightPower = 2 + leftPower;
-            leftPower = -1;
-        }
-        if (rightPower < -1) {
-            leftPower = 2 + rightPower;
+        if (angle > delta) {         // если угол сильно положительный,
+            leftPower = 0.75;
             rightPower = -1;
+        } else if (angle < -delta) {  // если угол сильно отрицательный,
+            leftPower = -1;
+            rightPower = 0.75;
+        } else {
+            leftPower = 1;
+            rightPower = 1;
         }
-
-        leftPower = leftPower * speedX;
-        rightPower = rightPower * speedX;
 
         move.setLeftTrackPower(leftPower);
         move.setRightTrackPower(rightPower);
-        String tmpOut = roundX(angle) + " " + roundX(leftPower) + " " + roundX( rightPower) + " " + isBorder();
-        if (!tmpOut.equals(tmpOutOld)) {
-            System.out.println(tmpOut);
-            tmpOutOld = tmpOut;
-        }
     }
 
     private double roundX(double x) {

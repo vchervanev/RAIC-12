@@ -40,7 +40,7 @@ public class ActionAim extends Action{
         // TODO выделить, когда достаточно повернуть пушку
         if (target == null) {
             variant = Variant.none;
-        } else if (env.self.getRemainingReloadingTime() > 50){
+        } else if (env.self.getRemainingReloadingTime() > 10){
             variant = Variant.aimSlowest;
         } else {
             if (currentCost < 200000)

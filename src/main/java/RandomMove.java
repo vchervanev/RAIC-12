@@ -14,6 +14,7 @@ public class RandomMove extends Action {
 
     @Override
     public void perform() {
-        env.directMoveTo(env.self.getHeight(),env.self.getHeight());
+        env.rotateToAngle(0);
+        //directMoveTo(env.self.getHeight(),env.self.getHeight());
     }
 }
