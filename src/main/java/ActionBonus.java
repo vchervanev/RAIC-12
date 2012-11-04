@@ -1,5 +1,6 @@
 import model.*;
 
+import static java.lang.Math.PI;
 import static java.lang.Math.abs;
 import static java.lang.Math.cos;
 
@@ -22,7 +23,7 @@ public class ActionBonus extends Action {
         for(Bonus bonus : bonuses) {
             double cost = env.self.getDistanceTo(bonus);
             // штраф за угол поворота
-            cost += 250*abs(env.self.getAngleTo(bonus))/Math.PI;
+            cost += 250*(1-abs(1-2*abs(env.self.getAngleTo(bonus))/PI));
             // бонус нужному бонусу
             if (bonus.getType() == BonusType.MEDIKIT){
                 if (env.self.getCrewHealth() < 70)

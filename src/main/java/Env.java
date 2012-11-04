@@ -133,21 +133,35 @@ public class Env {
 
     public void directMoveTo(double x, double y) {
         final double delta = PI / 6;
+        final double noRotate = PI / 2;
         double angle = self.getAngleTo(x, y);
         double distance = self.getDistanceTo(x, y);
 
         double leftPower;
         double rightPower;
 
-        if (angle > delta) {         // если угол сильно положительный,
-            leftPower = 0.75;
-            rightPower = -1;
-        } else if (angle < -delta) {  // если угол сильно отрицательный,
-            leftPower = -1;
-            rightPower = 0.75;
+        if (abs(angle) > noRotate && distance < 600*abs(angle)/PI) {
+            if (abs(angle) > PI-delta) {
+                leftPower = -1;
+                rightPower = -1;
+            } else if (angle > 0) {
+                leftPower = 0.75;
+                rightPower = -1;
+            } else {
+                leftPower = -1;
+                rightPower = 0.75;
+            }
         } else {
-            leftPower = 1;
-            rightPower = 1;
+            if (angle > delta) {         // если угол сильно положительный,
+                leftPower = 0.75;
+                rightPower = -1;
+            } else if (angle < -delta) {  // если угол сильно отрицательный,
+                leftPower = -1;
+                rightPower = 0.75;
+            } else {
+                leftPower = 1;
+                rightPower = 1;
+            }
         }
 
         move.setLeftTrackPower(leftPower);
@@ -168,11 +182,9 @@ public class Env {
     }
 
     private boolean isInNook() {
-        return (self.getX() < self.getHeight()
-                || self.getY() < self.getWidth()
-                || world.getWidth() < self.getX() + self.getWidth()
-                || world.getHeight() < self.getY() + self.getWidth()
-        );
+        for (Point nook : nooks)
+            if (getDistanceTo(nook) < dimention / 2) return true;
+        return false;
     }
 
 }
