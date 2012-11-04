@@ -28,7 +28,8 @@ public class Env {
 
     private String tmpOutOld;
     private double oldRotationSpeed;
-    private double dimention;
+    public double dimention;
+    public String myName;
 
     public boolean isTarget(Tank tank) {
         return tank.getCrewHealth() != 0 && tank.getHullDurability() != 0 &&
@@ -59,6 +60,7 @@ public class Env {
         nooks[1] = new Point(world.getWidth() - dimention, dimention);
         nooks[2] = new Point(dimention, world.getHeight() - dimention);
         nooks[3] = new Point(world.getWidth() - dimention, world.getHeight() - dimention);
+        myName = self.getPlayerName();
 
 //        for(Tank tank : world.getTanks()) {
 //            if (tank.getId() != self.getId()) {
@@ -77,7 +79,12 @@ public class Env {
         rotationAcceleration = rotationSpeed - oldRotationSpeed;
         if (rotationSpeed > rotationSpeedMax) rotationSpeedMax = rotationSpeed;
         oldRotationSpeed = rotationSpeed;
-        oldRotationSpeed = rotationSpeed;
+    }
+
+    public double getSpeed(Unit in) {
+        double x = in.getSpeedX();
+        double y = in.getSpeedY();
+        return Math.sqrt(x*x+y*y);
     }
 
     private Tank getTank(int index) {
@@ -161,6 +168,13 @@ public class Env {
 
         move.setLeftTrackPower(leftPower);
         move.setRightTrackPower(rightPower);
+
+//        String tmpOut = roundX(self.getX()) + " " + " " + roundX(self.getY()) + " " + rotationAcceleration;
+//        if (!tmpOut.equals(tmpOutOld)) {
+//            System.out.println(tmpOut);
+//            tmpOutOld = tmpOut;
+//        }
+
     }
 
     private double roundX(double x) {
