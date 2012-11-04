@@ -24,11 +24,14 @@ public class Env {
     public double rotationSpeedMax = 0.062;
     public double rotationAcceleration = 0;
 
+    public Point[] nooks = new Point[4];
+
     double oldX;
     double oldY;
     double oldAngle;
     private String tmpOutOld;
     private double oldRotationSpeed;
+    private double dimention;
 
     public boolean isTarget(Tank tank) {
         return tank.getCrewHealth() != 0 && tank.getHullDurability() != 0 &&
@@ -49,6 +52,16 @@ public class Env {
 
         if (!init)
             return;
+
+        if (self.getHeight() > self.getWidth())
+            dimention = self.getHeight();
+        else
+            dimention = self.getWidth();
+
+        nooks[0] = new Point(dimention, dimention);
+        nooks[1] = new Point(world.getWidth() - dimention, dimention);
+        nooks[2] = new Point(dimention, world.getHeight() - dimention);
+        nooks[3] = new Point(world.getWidth() - dimention, world.getHeight() - dimention);
 
 //        for(Tank tank : world.getTanks()) {
 //            if (tank.getId() != self.getId()) {
@@ -85,7 +98,7 @@ public class Env {
     public void rotateToAngle(double angle) {
         move.setLeftTrackPower(-1);
         move.setRightTrackPower(0.75);
-        String tmpOut = roundX(self.getAngle()) + " " + " " + rotationSpeedMax+ " " + rotationAcceleration;
+        String tmpOut = roundX(self.getAngle()) + " " + " " + rotationSpeedMax + " " + rotationAcceleration;
         if (!tmpOut.equals(tmpOutOld)) {
             System.out.println(tmpOut);
             tmpOutOld = tmpOut;
@@ -98,6 +111,24 @@ public class Env {
             return;
         }
         directMoveTo(unit.getX(), unit.getY());
+    }
+
+    public double getDistanceTo(Point point) {
+        return self.getDistanceTo(point.x, point.y);
+    }
+
+    public void moveToCorner() {
+        double minDist = 0;
+        Point minNook = null;
+        for (Point nook : nooks) {
+            double dist = getDistanceTo(nook);
+            if (dist < minDist || minNook == null) {
+                minDist = dist;
+                minNook = nook;
+            }
+        }
+        if (minDist > dimention / 2)
+            directMoveTo(minNook.x, minNook.y);
     }
 
     public void directMoveTo(double x, double y) {
@@ -124,11 +155,19 @@ public class Env {
     }
 
     private double roundX(double x) {
-        return round(x*100.0)/100.0;
+        return round(x * 100.0) / 100.0;
     }
 
 
     private boolean isBorder() {
+        return (self.getX() < self.getHeight()
+                || self.getY() < self.getWidth()
+                || world.getWidth() < self.getX() + self.getWidth()
+                || world.getHeight() < self.getY() + self.getWidth()
+        );
+    }
+
+    private boolean isInNook() {
         return (self.getX() < self.getHeight()
                 || self.getY() < self.getWidth()
                 || world.getWidth() < self.getX() + self.getWidth()

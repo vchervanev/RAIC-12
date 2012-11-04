@@ -25,6 +25,6 @@ public class ActionHide extends Action {
 
     @Override
     public void perform() {
-        env.directMoveTo(0,0);
+        env.moveToCorner();
     }
 }
