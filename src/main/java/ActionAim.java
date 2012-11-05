@@ -29,30 +29,30 @@ public class ActionAim extends Action{
 
 
             double cost = env.self.getDistanceTo(tank);
-            double newX = tank.getX()+tank.getSpeedX();
-            double newY = tank.getY()+tank.getSpeedY();
+//            double newX = tank.getX()+tank.getSpeedX();
+//            double newY = tank.getY()+tank.getSpeedY();
+//
+//            double turretAngleTo = env.self.getTurretAngleTo(newX, newY);
+//
+//            Shell shell = BulletHelper.simulateShell(env.self, ShellType.REGULAR, env.self.getTurretRelativeAngle() + env.self.getAngle() + turretAngleTo);
+//            double ttk1 = BulletHelper.checkHit(shell, tank, Geo.HitTestMode.minimum);
+//
+//            if (ttk1 == -1 && env.self.getPremiumShellCount() != 0) {
+//                shell = BulletHelper.simulateShell(env.self, ShellType.PREMIUM, env.self.getTurretRelativeAngle() + env.self.getAngle() + turretAngleTo);
+//                ttk1 = BulletHelper.checkHit(shell, tank, Geo.HitTestMode.minimum);
+//                if (ttk1 == -1) {
+//                    currentCost = 3000;
+//                }
+//            }
 
-            double turretAngleTo = env.self.getTurretAngleTo(newX, newY);
 
-            Shell shell = BulletHelper.simulateShell(env.self, ShellType.REGULAR, env.self.getTurretRelativeAngle() + env.self.getAngle() + turretAngleTo);
-            double ttk1 = BulletHelper.checkHit(shell, tank, Geo.HetTestMode.minimum);
-
-            if (ttk1 == -1 && env.self.getPremiumShellCount() != 0) {
-                shell = BulletHelper.simulateShell(env.self, ShellType.PREMIUM, env.self.getTurretRelativeAngle() + env.self.getAngle() + turretAngleTo);
-                ttk1 = BulletHelper.checkHit(shell, tank, Geo.HetTestMode.minimum);
-                if (ttk1 == -1) {
-                    currentCost = 3000;
-                }
-            }
-
-
-            double angleCost = 400*abs(turretAngleTo)/PI;
-            angleCost *= angleCost;
-            cost += angleCost;
+//            double angleCost = 400*abs(turretAngleTo)/PI;
+//            angleCost *= angleCost;
+//            cost += angleCost;
 
             //бонус за дохликов
             double health = min(tank.getCrewHealth(), tank.getHullDurability());
-            cost -= 600*(1 - health/100.0);
+//            cost -= 600*(1 - health/100.0);
             if (health < 20){
                 cost -= 200;
             }

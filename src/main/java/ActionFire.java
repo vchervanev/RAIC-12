@@ -3,7 +3,6 @@ import model.Shell;
 import model.ShellType;
 import model.Tank;
 
-import static java.lang.Math.PI;
 import static java.lang.Math.abs;
 
 /**
@@ -35,9 +34,9 @@ public class ActionFire extends Action{
 //            }
 
             Shell shell = BulletHelper.simulateShell(env.self, ShellType.REGULAR);
-            double ttk1 = BulletHelper.checkHit(shell, tank, Geo.HetTestMode.minimum);
+            double ttk1 = BulletHelper.checkHit(shell, tank, Geo.HitTestMode.minimum);
             shell = BulletHelper.simulateShell(env.self, ShellType.PREMIUM);
-            double ttk2 = BulletHelper.checkHit(shell, tank, Geo.HetTestMode.minimum);
+            double ttk2 = BulletHelper.checkHit(shell, tank, Geo.HitTestMode.minimum);
             if (ttk2 != -1 && env.self.getPremiumShellCount() != 0) {
                 fireType = FireType.PREMIUM_PREFERRED;
             } else if (ttk1 != -1) {

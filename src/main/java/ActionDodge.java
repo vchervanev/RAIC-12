@@ -86,7 +86,7 @@ public class ActionDodge extends Action {
                 a1 = chekTrase(s1, s2, p3, p4);
                 if (a1 != null) alarm = a1;
 
-                double ticks = BulletHelper.checkHit(shell, env.self, Geo.HetTestMode.maximum);
+                double ticks = BulletHelper.checkHit(shell, env.self, Geo.HitTestMode.maximum);
                 if (alarm == null && ticks > 30) {
                     alarm = s2;
                 }

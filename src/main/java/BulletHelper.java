@@ -1,7 +1,4 @@
-import model.Bonus;
-import model.Shell;
-import model.ShellType;
-import model.Tank;
+import model.*;
 
 import static java.lang.Math.*;
 
@@ -13,7 +10,16 @@ import static java.lang.Math.*;
  * Утилитные классы рассчета баллистики
  */
 public class BulletHelper {
-    public static int checkHit(Shell shell, Tank tank, Geo.HetTestMode hitTestMode) {
+
+    public static double getHitRadius(Unit unit, Geo.HitTestMode hitTestMode) {
+        if (hitTestMode == Geo.HitTestMode.minimum) {
+            return pow(min(unit.getWidth(), unit.getHeight())/2.0, 2);
+        } else {
+            return pow(unit.getHeight()/2.0, 2) + pow(unit.getWidth()/2.0, 2);
+        }
+    }
+
+    public static int checkHit(Shell shell, Tank tank, Geo.HitTestMode hitTestMode) {
         int ticks = 0;
         double distance = Geo.getDistancePow2(shell, tank);
         double newDistance = distance;
@@ -30,8 +36,8 @@ public class BulletHelper {
         double a1 = 1 - (shell.getType() == ShellType.REGULAR ? 1.0/99 : 1.0/199.0);
         double a2 = 1;
 
-        boolean minMode = hitTestMode == Geo.HetTestMode.minimum;
-        double hitRadius = pow(minMode ? min(tank.getHeight(), tank.getWidth()): max(tank.getHeight(), tank.getWidth()*1.1), 2)/2;
+        double hitRadius = getHitRadius(tank, hitTestMode);
+
 
         do {
             distance = newDistance;
@@ -55,8 +61,7 @@ public class BulletHelper {
             for(Tank aTank :  MyStrategy.env.world.getTanks()) {
                 // в минимальном режиме максимальные помехи (проверка на попадание)
                 // в максимальном режиме минимальные помехи (проверка на защиту)
-                double aHitRadius = minMode ? pow(max(aTank.getHeight(), tank.getWidth()), 2)/2
-                                            : pow(min(aTank.getHeight(), tank.getWidth()), 2)/2;
+                double aHitRadius = getHitRadius(aTank, hitTestMode);
 
                 if (    aTank != tank &&
                         !aTank.getPlayerName().equals(tank.getPlayerName())
