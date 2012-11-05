@@ -72,6 +72,12 @@ public class ActionDodge extends Action {
     @Override
     public void estimate() {
         alarm = null;
+
+//        if (env.tickId < 5) {
+//            variant = Variant.none;
+//            return;
+//        }
+
         Shell[] shels = env.world.getShells();
         rectangle(env.self, p1, p2, p3, p4);
         for (Shell shell : shels) {

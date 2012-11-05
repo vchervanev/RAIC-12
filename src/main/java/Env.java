@@ -10,6 +10,7 @@ import static java.lang.StrictMath.*;
  * Всё окружающее
  */
 public class Env {
+    public int tickId = -1;
     boolean init = true;
     public Move oldMove = null;
     public Move move;
@@ -38,6 +39,8 @@ public class Env {
     }
 
     public void init(Tank self, World world, Move move) {
+        tickId++;
+
         // TODO поддержка нескольких инициализаций за один тик, когда несколько танков во взводе
         this.oldMove = this.move;
         this.oldSelf = this.self;
@@ -160,11 +163,11 @@ public class Env {
                 leftPower = -1;
                 rightPower = -1;
             } else if (angle > 0) {
-                leftPower = 0.75;
-                rightPower = -1;
-            } else {
                 leftPower = -1;
                 rightPower = 0.75;
+            } else {
+                leftPower = 0.75;
+                rightPower = -1;
             }
         } else {
             if (angle > DELTA) {         // если угол сильно положительный,
