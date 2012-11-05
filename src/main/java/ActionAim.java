@@ -1,9 +1,7 @@
 import model.FireType;
 import model.Tank;
 
-import static java.lang.Math.PI;
-import static java.lang.Math.abs;
-import static java.lang.Math.signum;
+import static java.lang.Math.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -30,7 +28,10 @@ public class ActionAim extends Action{
 
             double cost = env.self.getDistanceTo(tank);
             cost *= cost;
-            double angleCost = 400*abs(env.self.getTurretAngleTo(tank))/PI;
+            double newX = tank.getX()+tank.getSpeedX();
+            double newY = tank.getY()+tank.getSpeedY();
+
+            double angleCost = 400*abs(env.self.getTurretAngleTo(newX, newY))/PI;
             angleCost *= angleCost;
             cost += angleCost;
 
@@ -58,7 +59,9 @@ public class ActionAim extends Action{
     public void perform() {
         assert target != null;
         // TODO убрать копипаст из частичного эпляя
-        double angle = env.self.getTurretAngleTo(target)*1.15;
+        double newX = target.getX()+target.getSpeedX();
+        double newY = target.getY()+target.getSpeedY();
+        double angle = env.self.getTurretAngleTo(newX, newY);
         if (abs(angle) < env.self.getTurretTurnSpeed()) {
             env.move.setTurretTurn(angle);
             return;

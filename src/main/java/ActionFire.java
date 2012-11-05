@@ -52,4 +52,9 @@ public class ActionFire extends Action{
     public void perform() {
         env.move.setFireType(fireType);
     }
+
+    @Override
+    public void tryPerformSecondary() {
+        perform();
+    }
 }
