@@ -82,7 +82,7 @@ public class BulletHelper {
         double speed = shellType == ShellType.REGULAR ? 16.7 : 13.3;
         double length = tank.getVirtualGunLength();
         Shell shell = new Shell(newId++, "", 5, 5, tank.getX() + length*cos(angle), tank.getY() + length*sin(angle),
-                tank.getSpeedX() + speed*cos(angle), tank.getSpeedY() + speed*sin(angle), angle, 0, shellType);
+                /*tank.getSpeedX() + */speed*cos(angle), /*tank.getSpeedY() + */speed*sin(angle), angle, 0, shellType);
         return shell;
     }
 }
