@@ -75,10 +75,14 @@ public class BulletHelper {
 
     /** Метод создает пулю, словно ее выстрелил танк*/
     public static Shell simulateShell(Tank tank, ShellType shellType) {
-        double angle = tank.getTurretRelativeAngle() + tank.getAngle();
+        return simulateShell(tank, shellType, tank.getTurretRelativeAngle() + tank.getAngle());
+    }
+
+    public static Shell simulateShell(Tank tank, ShellType shellType, double angle) {
         double speed = shellType == ShellType.REGULAR ? 16.7 : 13.3;
         double length = tank.getVirtualGunLength();
-        Shell shell = new Shell(newId++, "", 5, 5, tank.getX() + length*cos(angle), tank.getY() + length*sin(angle), speed*cos(angle), speed*sin(angle), angle, 0, shellType);
+        Shell shell = new Shell(newId++, "", 5, 5, tank.getX() + length*cos(angle), tank.getY() + length*sin(angle),
+                tank.getSpeedX() + speed*cos(angle), tank.getSpeedY() + speed*sin(angle), angle, 0, shellType);
         return shell;
     }
 }

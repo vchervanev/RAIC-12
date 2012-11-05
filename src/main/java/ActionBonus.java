@@ -1,8 +1,10 @@
 import model.*;
 
-import static java.lang.Math.PI;
-import static java.lang.Math.abs;
-import static java.lang.Math.cos;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static java.lang.Math.*;
 
 
 /**
@@ -18,12 +20,31 @@ public class ActionBonus extends Action {
     @Override
     public void estimate() {
         Bonus[] bonuses = env.world.getBonuses();
+
+        List<Tank> tanks = Arrays.asList(env.world.getTanks());
+        tanks.remove(env.self);
+
+
         target = null;
         double currentCost = 0;
         for(Bonus bonus : bonuses) {
             double cost = env.self.getDistanceTo(bonus);
+
+            double cost2 = cost*cost;
+            // штраф за танки на пути
+            for(Tank tank : tanks) {
+                if (tank.getPlayerName().equals(env.self.getPlayerName()) ){
+                    continue;
+                }
+                double add = Geo.getDistancePow2(env.self, tank) + Geo.getDistancePow2(bonus, tank);
+
+                if (add - cost2 < 4900)
+                    cost += 1000;
+            }
+
             // штраф за угол поворота
             cost += 250*(1-abs(1-2*abs(env.self.getAngleTo(bonus))/PI));
+
             // бонус нужному бонусу
             if (bonus.getType() == BonusType.MEDIKIT){
                 if (env.self.getCrewHealth() < 70)

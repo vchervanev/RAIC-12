@@ -82,6 +82,23 @@ public final class MyStrategy implements Strategy {
 //        analyzeShells();
 
         // счетчик тиков
+
+
+        if (env.move.getLeftTrackPower() == 0 && env.move.getRightTrackPower() == 0) {
+            double angleToTurret = env.self.getTurretRelativeAngle();
+            if (abs(angleToTurret) > PI/2) {
+                double delta = angleToTurret - signum(angleToTurret)*PI/2;
+                if (delta > 0){
+                    move.setLeftTrackPower(0.75);
+                    move.setRightTrackPower(-1);
+                } else {
+                    move.setLeftTrackPower(-1);
+                    move.setRightTrackPower(0.75);
+                }
+            }
+
+        }
+
         id++;
 
     }

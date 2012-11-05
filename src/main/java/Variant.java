@@ -10,8 +10,8 @@ import model.*;
  */
 public enum Variant {
     dodge, // бежать
-    fireAndKill, // стрельба с близкого расстояния
     bonusUrgent, // очень нужный бонус и не очень далеко
+    fireAndKill, // стрельба с близкого расстояния
     bonusNearly, // близкий бонус
     hide,
     aimFast, // немного прицелиться, дальше будет стрельба с близкого расстояния,

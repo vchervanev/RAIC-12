@@ -118,11 +118,12 @@ public class ActionDodge extends Action {
     public void perform() {
         env.directMoveTo(env.self.getX() + env.self.getSpeedX(), env.self.getY() + env.self.getSpeedY());
                 //alarm.x + env.dimention, alarm.y + env.dimention);
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                    }
+
+//                    try {
+//                        Thread.sleep(100);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//                    }
 
     }
 }

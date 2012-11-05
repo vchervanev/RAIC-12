@@ -1,4 +1,6 @@
 import model.FireType;
+import model.Shell;
+import model.ShellType;
 import model.Tank;
 
 import static java.lang.Math.*;
@@ -30,7 +32,21 @@ public class ActionAim extends Action{
             double newX = tank.getX()+tank.getSpeedX();
             double newY = tank.getY()+tank.getSpeedY();
 
-            double angleCost = 400*abs(env.self.getTurretAngleTo(newX, newY))/PI;
+            double turretAngleTo = env.self.getTurretAngleTo(newX, newY);
+
+            Shell shell = BulletHelper.simulateShell(env.self, ShellType.REGULAR, env.self.getTurretRelativeAngle() + env.self.getAngle() + turretAngleTo);
+            double ttk1 = BulletHelper.checkHit(shell, tank, Geo.HetTestMode.minimum);
+
+            if (ttk1 == -1 && env.self.getPremiumShellCount() != 0) {
+                shell = BulletHelper.simulateShell(env.self, ShellType.PREMIUM, env.self.getTurretRelativeAngle() + env.self.getAngle() + turretAngleTo);
+                ttk1 = BulletHelper.checkHit(shell, tank, Geo.HetTestMode.minimum);
+                if (ttk1 == -1) {
+                    currentCost = 3000;
+                }
+            }
+
+
+            double angleCost = 400*abs(turretAngleTo)/PI;
             angleCost *= angleCost;
             cost += angleCost;
 
@@ -40,6 +56,8 @@ public class ActionAim extends Action{
             if (health < 20){
                 cost -= 200;
             }
+
+
 
             if (target == null || currentCost > cost) {
                 target = tank;
@@ -52,12 +70,14 @@ public class ActionAim extends Action{
         } else if (env.self.getRemainingReloadingTime() > 10){
             variant = Variant.aimSlowest;
         } else {
-            if (currentCost < 200000)
+            if (currentCost < 500)
                 variant = Variant.aimFast;
-            else if (currentCost < 400000)
+            else if (currentCost < 800)
                 variant = Variant.aimAverage;
-            else
+            else if (currentCost < 2000)
                 variant = Variant.aimSlow;
+            else
+                variant = Variant.none;
         }
     }
 
