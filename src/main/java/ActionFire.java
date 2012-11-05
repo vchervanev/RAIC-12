@@ -35,9 +35,9 @@ public class ActionFire extends Action{
 //            }
 
             Shell shell = BulletHelper.simulateShell(env.self, ShellType.REGULAR);
-            double ttk1 = BulletHelper.checkHit(shell, tank);
+            double ttk1 = BulletHelper.checkHit(shell, tank, Geo.HetTestMode.minimum);
             shell = BulletHelper.simulateShell(env.self, ShellType.PREMIUM);
-            double ttk2 = BulletHelper.checkHit(shell, tank);
+            double ttk2 = BulletHelper.checkHit(shell, tank, Geo.HetTestMode.minimum);
             if (ttk2 != -1) {
                 variant = Variant.fireAndKill;
                 fireType = FireType.PREMIUM_PREFERRED;

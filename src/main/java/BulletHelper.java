@@ -13,7 +13,7 @@ import static java.lang.Math.*;
  * Утилитные классы рассчета баллистики
  */
 public class BulletHelper {
-    public static int checkHit(Shell shell, Tank tank) {
+    public static int checkHit(Shell shell, Tank tank, Geo.HetTestMode hitTestMode) {
         int ticks = 0;
         double distance = Geo.getDistancePow2(shell, tank);
         double newDistance = distance;
@@ -30,7 +30,8 @@ public class BulletHelper {
         double a1 = 1 - (shell.getType() == ShellType.REGULAR ? 1.0/99 : 1.0/199.0);
         double a2 = 1;
 
-        double hitRadius = pow(min(tank.getHeight(), tank.getWidth())/2, 2);
+        boolean minMode = hitTestMode == Geo.HetTestMode.minimum;
+        double hitRadius = pow(minMode ? min(tank.getHeight(), tank.getWidth()): max(tank.getHeight(), tank.getWidth()*1.1), 2)/2;
 
         do {
             distance = newDistance;
@@ -50,12 +51,17 @@ public class BulletHelper {
                     return -1;
                 }
             }
-            // мой танк портит все
+
             for(Tank aTank :  MyStrategy.env.world.getTanks()) {
+                // в минимальном режиме максимальные помехи (проверка на попадание)
+                // в максимальном режиме минимальные помехи (проверка на защиту)
+                double aHitRadius = minMode ? pow(max(aTank.getHeight(), tank.getWidth()), 2)/2
+                                            : pow(min(aTank.getHeight(), tank.getWidth()), 2)/2;
+
                 if (    aTank != tank &&
                         !aTank.getPlayerName().equals(tank.getPlayerName())
                         && aTank.getCrewHealth() != 0 && aTank.getHullDurability() != 0 &&
-                        Geo.getDistancePow2(aTank, x1, y1) < pow(min(aTank.getHeight(), aTank.getWidth()), 2)/2.0)
+                        Geo.getDistancePow2(aTank, x1, y1) < aHitRadius)
                     return -1;
             }
 

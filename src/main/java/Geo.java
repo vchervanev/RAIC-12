@@ -20,11 +20,11 @@ public class Geo {
 //                hiHetTestMode);
 //    }
 
-    public static boolean hitTest(Unit unit1, Unit unit2, double x1, double y1, double x2, double y2, double a1, double a2, HetTestMode hitHetTestMode) {
-        double r1 = hitHetTestMode == HetTestMode.minimum ? min(unit1.getHeight(), unit1.getWidth()) : max(unit1.getHeight(), unit1.getWidth());
-        double r2 = hitHetTestMode == HetTestMode.minimum ? min(unit2.getHeight(), unit2.getWidth()) : max(unit2.getHeight(), unit2.getWidth());
-        return (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2) <= r1*r1 + r2*r2;
-    }
+//    public static boolean hitTest(Unit unit1, Unit unit2, double x1, double y1, double x2, double y2, double a1, double a2, HetTestMode hitHetTestMode) {
+//        double r1 = hitHetTestMode == HetTestMode.minimum ? min(unit1.getHeight(), unit1.getWidth()) : max(unit1.getHeight(), unit1.getWidth());
+//        double r2 = hitHetTestMode == HetTestMode.minimum ? min(unit2.getHeight(), unit2.getWidth()) : max(unit2.getHeight(), unit2.getWidth());
+//        return (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2) <= r1*r1 + r2*r2;
+//    }
 
     public enum HetTestMode { minimum, maximum }
 

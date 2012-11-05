@@ -85,6 +85,26 @@ public class ActionDodge extends Action {
                 if (a1 != null) alarm = a1;
                 a1 = chekTrase(s1, s2, p3, p4);
                 if (a1 != null) alarm = a1;
+
+                double ticks = BulletHelper.checkHit(shell, env.self, Geo.HetTestMode.maximum);
+                if (alarm == null && ticks > 30) {
+                    alarm = s2;
+                }
+
+                if (alarm != null && ticks == -1) {
+                    alarm = null;
+                }
+
+//                if ((alarm == null && ticks != -1) || (alarm != null && ticks == -1)) {
+//                    System.out.printf("Dodge mistake: %d:\t%s\t%d\n", shell.getId(), alarm, ticks);
+//                    try {
+//                        Thread.sleep(100);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//                    }
+//                    //variant = Variant.none;return;
+//
+//                }
             }
         }
         if (alarm != null) {
@@ -96,6 +116,13 @@ public class ActionDodge extends Action {
 
     @Override
     public void perform() {
-        env.directMoveTo(alarm.x + env.dimention, alarm.y + env.dimention);
+        env.directMoveTo(env.self.getX() + env.self.getSpeedX(), env.self.getY() + env.self.getSpeedY());
+                //alarm.x + env.dimention, alarm.y + env.dimention);
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    }
+
     }
 }
