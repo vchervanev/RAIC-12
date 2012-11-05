@@ -19,17 +19,16 @@ public class Env {
     public Tank self;
     public double moveSpeed = 0;
     public double rotationSpeed = 0;
-    public double rotationSpeedMax = 0.062;
+    public double rotationSpeedMax = 0;
     public double rotationAcceleration = 0;
 
     public Point[] nooks = new Point[4];
 
-    double oldX;
-    double oldY;
-    double oldAngle;
     private String tmpOutOld;
     private double oldRotationSpeed;
-    private double dimention;
+    public double dimention;
+    public String myName;
+
     public static final double NO_ROTATE = PI / 2;
     public static final double DELTA = PI / 6;
 
@@ -60,6 +59,7 @@ public class Env {
         nooks[1] = new Point(world.getWidth() - dimention, dimention);
         nooks[2] = new Point(dimention, world.getHeight() - dimention);
         nooks[3] = new Point(world.getWidth() - dimention, world.getHeight() - dimention);
+        myName = self.getPlayerName();
 
 //        for(Tank tank : world.getTanks()) {
 //            if (tank.getId() != self.getId()) {
@@ -71,16 +71,19 @@ public class Env {
     }
 
     private void calcSpeed() {
-        if (world.getTick() > 1) {
-            this.moveSpeed = self.getDistanceTo(oldX, oldY);
-            this.rotationSpeed = abs(oldAngle - abs(self.getAngle()));
-            rotationAcceleration = rotationSpeed - oldRotationSpeed;
-//            if (rotationSpeed > rotationSpeedMax) rotationSpeedMax = rotationSpeed;
-        }
-        oldX = self.getX();
-        oldY = self.getY();
-        oldAngle = abs(self.getAngle());
+        if (init) return;
+        moveSpeed = self.getDistanceTo(oldSelf);
+        rotationSpeed = abs(oldSelf.getAngle() - self.getAngle());
+        if (rotationSpeed > PI) rotationSpeed = 2 * PI - rotationSpeed;
+        rotationAcceleration = rotationSpeed - oldRotationSpeed;
+        if (rotationSpeed > rotationSpeedMax) rotationSpeedMax = rotationSpeed;
         oldRotationSpeed = rotationSpeed;
+    }
+
+    public double getSpeed(Unit in) {
+        double x = in.getSpeedX();
+        double y = in.getSpeedY();
+        return Math.sqrt(x*x+y*y);
     }
 
     private Tank getTank(int index) {
@@ -155,6 +158,9 @@ public class Env {
                 leftPower = -1;
                 rightPower = -1;
             } else if (angle > 0) {
+                leftPower = 0.75;
+                rightPower = -1;
+            } else {
                 leftPower = -1;
                 rightPower = 0.75;
             } else {
@@ -176,6 +182,13 @@ public class Env {
 
         move.setLeftTrackPower(leftPower);
         move.setRightTrackPower(rightPower);
+
+//        String tmpOut = roundX(self.getX()) + " " + " " + roundX(self.getY()) + " " + rotationAcceleration;
+//        if (!tmpOut.equals(tmpOutOld)) {
+//            System.out.println(tmpOut);
+//            tmpOutOld = tmpOut;
+//        }
+
     }
 
     public boolean isBehind(Unit unit) {
@@ -184,7 +197,7 @@ public class Env {
         return isBehind(angle, distance);
     }
 
-        public boolean isBehind(double angle, double distance) {
+    public boolean isBehind(double angle, double distance) {
         return abs(angle) > NO_ROTATE && distance < 600*abs(angle)/PI;
     }
 

@@ -12,4 +12,17 @@ public class Point {
         this.x = x;
         this.y = y;
     }
+
+    public boolean equals(Point in) {
+        return in.x == x && in.y ==y;
+    }
+
+    public boolean equals(double x, double y) {
+        return this.x == x && this.y ==y;
+    }
+
+    public void setXY(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
 }

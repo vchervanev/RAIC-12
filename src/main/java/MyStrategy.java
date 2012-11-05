@@ -18,6 +18,7 @@ public final class MyStrategy implements Strategy {
         actions.add(new ActionBonus());
         actions.add(new ActionFire());
         actions.add(new ActionAim());
+        actions.add(new ActionDodge());
         actions.add(new ActionHide());
     }
 
