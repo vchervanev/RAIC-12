@@ -58,7 +58,7 @@ public class ActionAim extends Action{
     public void perform() {
         assert target != null;
         // TODO убрать копипаст из частичного эпляя
-        double angle = env.self.getTurretAngleTo(target)*1.05;
+        double angle = env.self.getTurretAngleTo(target)*1.15;
         if (abs(angle) < env.self.getTurretTurnSpeed()) {
             env.move.setTurretTurn(angle);
             return;

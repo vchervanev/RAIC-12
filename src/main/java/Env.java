@@ -1,8 +1,6 @@
 import model.*;
 
-import static java.lang.StrictMath.PI;
-import static java.lang.StrictMath.abs;
-import static java.lang.StrictMath.round;
+import static java.lang.StrictMath.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -32,6 +30,8 @@ public class Env {
     private String tmpOutOld;
     private double oldRotationSpeed;
     private double dimention;
+    public static final double NO_ROTATE = PI / 2;
+    public static final double DELTA = PI / 6;
 
     public boolean isTarget(Tank tank) {
         return tank.getCrewHealth() != 0 && tank.getHullDurability() != 0 &&
@@ -53,10 +53,8 @@ public class Env {
         if (!init)
             return;
 
-        if (self.getHeight() > self.getWidth())
-            dimention = self.getHeight();
-        else
-            dimention = self.getWidth();
+        dimention = max(self.getWidth(), self.getHeight())*1.3;
+
 
         nooks[0] = new Point(dimention, dimention);
         nooks[1] = new Point(world.getWidth() - dimention, dimention);
@@ -129,33 +127,45 @@ public class Env {
         }
         if (minDist > dimention / 2)
             directMoveTo(minNook.x, minNook.y);
+
+        double angleToNook = self.getAngleTo(minNook.x, minNook.y);
+
+        if (abs(angleToNook) < PI - DELTA) {
+            if (angleToNook < 0) {
+                move.setLeftTrackPower(-1);
+                move.setRightTrackPower(0.75);
+            } else {
+                move.setLeftTrackPower(0.75);
+                move.setRightTrackPower(-1);
+            }
+        }
     }
 
-    public void directMoveTo(double x, double y) {
-        final double delta = PI / 6;
-        final double noRotate = PI / 2;
-        double angle = self.getAngleTo(x, y);
-        double distance = self.getDistanceTo(x, y);
 
+
+    public void directMoveTo(double x, double y) {
         double leftPower;
         double rightPower;
 
-        if (abs(angle) > noRotate && distance < 600*abs(angle)/PI) {
-            if (abs(angle) > PI-delta) {
+        double angle = self.getAngleTo(x, y);
+        double distance = self.getDistanceTo(x, y);
+
+        if (isBehind(angle, distance)) {
+            if (abs(angle) > PI- DELTA) {
                 leftPower = -1;
                 rightPower = -1;
             } else if (angle > 0) {
-                leftPower = 0.75;
-                rightPower = -1;
-            } else {
                 leftPower = -1;
                 rightPower = 0.75;
-            }
-        } else {
-            if (angle > delta) {         // если угол сильно положительный,
+            } else {
                 leftPower = 0.75;
                 rightPower = -1;
-            } else if (angle < -delta) {  // если угол сильно отрицательный,
+            }
+        } else {
+            if (angle > DELTA) {         // если угол сильно положительный,
+                leftPower = 0.75;
+                rightPower = -1;
+            } else if (angle < -DELTA) {  // если угол сильно отрицательный,
                 leftPower = -1;
                 rightPower = 0.75;
             } else {
@@ -166,6 +176,16 @@ public class Env {
 
         move.setLeftTrackPower(leftPower);
         move.setRightTrackPower(rightPower);
+    }
+
+    public boolean isBehind(Unit unit) {
+        double angle = self.getAngleTo(unit);
+        double distance = self.getDistanceTo(unit);
+        return isBehind(angle, distance);
+    }
+
+        public boolean isBehind(double angle, double distance) {
+        return abs(angle) > NO_ROTATE && distance < 600*abs(angle)/PI;
     }
 
     private double roundX(double x) {

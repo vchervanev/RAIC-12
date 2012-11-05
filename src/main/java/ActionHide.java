@@ -18,7 +18,7 @@ public class ActionHide extends Action {
                 totalDistance += env.self.getDistanceTo(tank);
             }
         }
-        if ((enemyCount == 5 || (enemyCount == 4 && totalDistance <  1200)) && env.self.getDistanceTo(0,0) > 80) {
+        if ((enemyCount == 2 || (enemyCount == 4 && totalDistance <  1200)) && env.self.getDistanceTo(0,0) > 80) {
             variant = Variant.hide;
         } else {
             variant = Variant.none;
