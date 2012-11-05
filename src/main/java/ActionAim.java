@@ -27,13 +27,19 @@ public class ActionAim extends Action{
 
 
             double cost = env.self.getDistanceTo(tank);
-            cost *= cost;
             double newX = tank.getX()+tank.getSpeedX();
             double newY = tank.getY()+tank.getSpeedY();
 
             double angleCost = 400*abs(env.self.getTurretAngleTo(newX, newY))/PI;
             angleCost *= angleCost;
             cost += angleCost;
+
+            //бонус за дохликов
+            double health = min(tank.getCrewHealth(), tank.getHullDurability());
+            cost -= 600*(1 - health/100.0);
+            if (health < 20){
+                cost -= 200;
+            }
 
             if (target == null || currentCost > cost) {
                 target = tank;
