@@ -162,7 +162,7 @@ public class Env {
         // задний ход
         if (isBehind(angle, distance)) {
             // abs(angle) > PI/2 - тупой угол
-            if (abs(angle) > PI- DELTA) { // > 5/6 PI
+            if (abs(angle) > PI- DELTA || distance < 25) { // > 5/6 PI
                 leftPower = -1;
                 rightPower = -1;
             } else if (angle > 0) {
@@ -183,10 +183,10 @@ public class Env {
 //
 //            }else
             // едем топорно
-            if (angle > DELTA) {         // правее дельты
+            if (angle > DELTA && distance > 25) {         // правее дельты
                 leftPower = 0.75;
                 rightPower = -1;
-            } else if (angle < -DELTA) {  // левее дельты
+            } else if (angle < -DELTA && distance > 25) {  // левее дельты
                 leftPower = -1;
                 rightPower = 0.75;
             } else { // внутри дельты
