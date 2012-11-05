@@ -163,9 +163,6 @@ public class Env {
             } else {
                 leftPower = -1;
                 rightPower = 0.75;
-            } else {
-                leftPower = 0.75;
-                rightPower = -1;
             }
         } else {
             if (angle > DELTA) {         // если угол сильно положительный,
