@@ -130,16 +130,18 @@ public class Env {
         }
         if (minDist > dimention / 2)
             directMoveTo(minNook.x, minNook.y);
+        else {
 
-        double angleToNook = self.getAngleTo(minNook.x, minNook.y);
+            double angleToNook = self.getAngleTo(minNook.x, minNook.y);
 
-        if (abs(angleToNook) < PI - DELTA) {
-            if (angleToNook < 0) {
-                move.setLeftTrackPower(-1);
-                move.setRightTrackPower(0.75);
-            } else {
-                move.setLeftTrackPower(0.75);
-                move.setRightTrackPower(-1);
+            if (abs(angleToNook) < PI - DELTA) {
+                if (angleToNook < 0) {
+                    move.setLeftTrackPower(-1);
+                    move.setRightTrackPower(0.75);
+                } else {
+                    move.setLeftTrackPower(0.75);
+                    move.setRightTrackPower(-1);
+                }
             }
         }
     }
