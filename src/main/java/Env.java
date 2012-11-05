@@ -134,16 +134,18 @@ public class Env {
         if (minDist > dimention / 2)
             directMoveTo(minNook.x, minNook.y);
         else {
-
-            double angleToNook = self.getAngleTo(minNook.x, minNook.y);
+            // ищем координаты ближайшего угла, чтобы встать к нему "задом"
+            double x = self.getX() < world.getWidth()/2 ? 0 : world.getWidth();
+            double y = self.getY() < world.getHeight()/2 ? 0: world.getHeight();
+            double angleToNook = self.getAngleTo(x, y);
 
             if (abs(angleToNook) < PI - DELTA) {
                 if (angleToNook < 0) {
-                    move.setLeftTrackPower(-1);
-                    move.setRightTrackPower(0.75);
-                } else {
                     move.setLeftTrackPower(0.75);
                     move.setRightTrackPower(-1);
+                } else {
+                    move.setLeftTrackPower(-1);
+                    move.setRightTrackPower(0.75);
                 }
             }
         }
@@ -157,9 +159,10 @@ public class Env {
 
         double angle = self.getAngleTo(x, y);
         double distance = self.getDistanceTo(x, y);
-
+        // задний ход
         if (isBehind(angle, distance)) {
-            if (abs(angle) > PI- DELTA) {
+            // abs(angle) > PI/2 - тупой угол
+            if (abs(angle) > PI- DELTA) { // > 5/6 PI
                 leftPower = -1;
                 rightPower = -1;
             } else if (angle > 0) {
@@ -169,14 +172,24 @@ public class Env {
                 leftPower = 0.75;
                 rightPower = -1;
             }
-        } else {
-            if (angle > DELTA) {         // если угол сильно положительный,
+        } else { // передний ход
+            // пробуем плавно приехать
+//            if (abs(angle) < PI/3 && distance > 200 ) {
+//                double targetDx = cos(angle);
+//                double targetDy = sin(angle);
+//                double dx = self.getSpeedX();
+//                double dy = self.getSpeedY();
+//
+//
+//            }else
+            // едем топорно
+            if (angle > DELTA) {         // правее дельты
                 leftPower = 0.75;
                 rightPower = -1;
-            } else if (angle < -DELTA) {  // если угол сильно отрицательный,
+            } else if (angle < -DELTA) {  // левее дельты
                 leftPower = -1;
                 rightPower = 0.75;
-            } else {
+            } else { // внутри дельты
                 leftPower = 1;
                 rightPower = 1;
             }
