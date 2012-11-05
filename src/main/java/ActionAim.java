@@ -65,8 +65,8 @@ public class ActionAim extends Action{
     public void perform() {
         assert target != null;
         // TODO убрать копипаст из частичного эпляя
-        double newX = target.getX()+target.getSpeedX();
-        double newY = target.getY()+target.getSpeedY();
+        double newX = target.getX()+target.getSpeedX()*1.2;
+        double newY = target.getY()+target.getSpeedY()*1.2;
         double angle = env.self.getTurretAngleTo(newX, newY);
         if (abs(angle) < env.self.getTurretTurnSpeed()) {
             env.move.setTurretTurn(angle);
@@ -78,11 +78,11 @@ public class ActionAim extends Action{
         double leftPower = 0;
         double rightPower = 0;
         if(angle>0) {
-            leftPower = 0.5;
-            rightPower = -0.5;
+            leftPower = 1;
+            rightPower = -0.3;
         } else {
-            leftPower = -0.5;
-            rightPower = 0.5;
+            leftPower = -0.3;
+            rightPower = 1;
         }
         env.move.setLeftTrackPower(leftPower);
         env.move.setRightTrackPower(rightPower);
@@ -92,7 +92,9 @@ public class ActionAim extends Action{
     public void tryPerformSecondary() {
         // TODO сделать проверку, можно ли двигать пушку
         // TODO убрать копипаст сверху
-        double angle = env.self.getTurretAngleTo(target);
+        double newX = target.getX()+target.getSpeedX();
+        double newY = target.getY()+target.getSpeedY();
+        double angle = env.self.getTurretAngleTo(newX, newY);
         if (abs(angle) < env.self.getTurretTurnSpeed()) {
             env.move.setTurretTurn(angle);
         }  else {
