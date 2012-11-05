@@ -8,6 +8,8 @@ import static java.util.Collections.sort;
 
 public final class MyStrategy implements Strategy {
 
+    Action action = null;
+    Variant variant = Variant.none;
     public static Env env = new Env();
 
     int id = 0;
@@ -46,6 +48,16 @@ public final class MyStrategy implements Strategy {
             action.estimate();
         }
         sort(actions);
+
+        Action newAction = actions.get(0);
+        Variant newVariant = actions.get(0).getVariant();
+
+        if (action != newAction || variant != newVariant) {
+            action = newAction;
+            variant = newVariant;
+            System.out.printf("%d\t%s\t%s\n", id, action.getClass().getSimpleName(), variant.toString());
+        }
+
 
         int index = 0;
         for(Action action : actions) {

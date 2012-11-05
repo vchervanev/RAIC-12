@@ -46,7 +46,7 @@ public class BulletHelper {
             newDistance = pow(x1 - x2, 2) + pow(y1 - y2, 2);
             for(Bonus bonus : MyStrategy.env.world.getBonuses()) {
                 if (Geo.getDistancePow2(bonus, x1, y1) < pow(bonus.getHeight(),2)/2.0) {
-                    System.out.print("bonus stops bullet\n");
+                    //System.out.print("bonus stops bullet\n");
                     return -1;
                 }
             }

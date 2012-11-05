@@ -89,7 +89,7 @@ public class ActionDodge extends Action {
         }
         if (alarm != null) {
             variant = Variant.dodge;
-            System.out.println("Alarm!");
+//            System.out.println("Alarm!");
         } else
             variant = Variant.none;
     }
