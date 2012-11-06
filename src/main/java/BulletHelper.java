@@ -41,7 +41,8 @@ public class BulletHelper {
 
         // в минимальном режиме максимальные помехи (проверка на попадание)
         // в максимальном режиме минимальные помехи (проверка на защиту)
-        Geo.HitTestMode altMode = hitTestMode == Geo.HitTestMode.minimum ? Geo.HitTestMode.maximum : hitTestMode;
+        Geo.HitTestMode altMode = hitTestMode == Geo.HitTestMode.minimum ? Geo.HitTestMode.maximum : Geo.HitTestMode.minimum;
+        double hitRadiusShellAlt = getHitRadius(shell, altMode);
 
         do {
             distance = newDistance;
@@ -57,7 +58,7 @@ public class BulletHelper {
             newDistance = pow(x1 - x2, 2) + pow(y1 - y2, 2);
             for(Bonus bonus : MyStrategy.env.world.getBonuses()) {
                 double aHitRadius = getHitRadius(bonus, altMode);
-                if (Geo.getDistancePow2(bonus, x1, y1) < aHitRadius + hitRadiusShell) {
+                if (Geo.getDistancePow2(bonus, x1, y1) < aHitRadius + hitRadiusShellAlt) {
                     //System.out.print("bonus stops bullet\n");
                     return -1;
                 }
@@ -69,7 +70,7 @@ public class BulletHelper {
                 if (    aTank.getId() != tank.getId() &&
 //                        !aTank.getPlayerName().equals(tank.getPlayerName())
 //                        && aTank.getCrewHealth() != 0 && aTank.getHullDurability() != 0 &&
-                        Geo.getDistancePow2(aTank, x1, y1) < aHitRadius + hitRadiusShell)
+                        Geo.getDistancePow2(aTank, x1, y1) < aHitRadius + hitRadiusShellAlt)
                     return -1;
             }
 
