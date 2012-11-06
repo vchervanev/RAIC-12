@@ -37,7 +37,11 @@ public class BulletHelper {
         double a2 = 1;
 
         double hitRadius = getHitRadius(tank, hitTestMode);
+        double hitRadiusShell = getHitRadius(shell, hitTestMode);
 
+        // в минимальном режиме максимальные помехи (проверка на попадание)
+        // в максимальном режиме минимальные помехи (проверка на защиту)
+        Geo.HitTestMode altMode = hitTestMode == Geo.HitTestMode.minimum ? Geo.HitTestMode.maximum : hitTestMode;
 
         do {
             distance = newDistance;
@@ -52,25 +56,24 @@ public class BulletHelper {
 
             newDistance = pow(x1 - x2, 2) + pow(y1 - y2, 2);
             for(Bonus bonus : MyStrategy.env.world.getBonuses()) {
-                if (Geo.getDistancePow2(bonus, x1, y1) < pow(bonus.getHeight(),2)/2.0) {
+                double aHitRadius = getHitRadius(bonus, altMode);
+                if (Geo.getDistancePow2(bonus, x1, y1) < aHitRadius + hitRadiusShell) {
                     //System.out.print("bonus stops bullet\n");
                     return -1;
                 }
             }
 
             for(Tank aTank :  MyStrategy.env.world.getTanks()) {
-                // в минимальном режиме максимальные помехи (проверка на попадание)
-                // в максимальном режиме минимальные помехи (проверка на защиту)
-                double aHitRadius = getHitRadius(aTank, hitTestMode);
+                double aHitRadius = getHitRadius(aTank, altMode);
 
-                if (    aTank != tank &&
-                        !aTank.getPlayerName().equals(tank.getPlayerName())
-                        && aTank.getCrewHealth() != 0 && aTank.getHullDurability() != 0 &&
-                        Geo.getDistancePow2(aTank, x1, y1) < aHitRadius)
+                if (    aTank.getId() != tank.getId() &&
+//                        !aTank.getPlayerName().equals(tank.getPlayerName())
+//                        && aTank.getCrewHealth() != 0 && aTank.getHullDurability() != 0 &&
+                        Geo.getDistancePow2(aTank, x1, y1) < aHitRadius + hitRadiusShell)
                     return -1;
             }
 
-            if (newDistance < hitRadius)
+            if (newDistance < hitRadius + hitRadiusShell)
                 return ticks;
             ticks++;
         } while (newDistance < distance);

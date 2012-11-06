@@ -53,8 +53,8 @@ public class ActionAim extends Action{
             //бонус за дохликов
             double health = min(tank.getCrewHealth(), tank.getHullDurability());
 //            cost -= 600*(1 - health/100.0);
-            if (health < 20){
-                cost -= 200;
+            if (health < 21){
+                cost -= 300;
             }
 
 
@@ -99,9 +99,9 @@ public class ActionAim extends Action{
         double rightPower = 0;
         if(angle>0) {
             leftPower = 1;
-            rightPower = -0.3;
+            rightPower = -0.5;
         } else {
-            leftPower = -0.3;
+            leftPower = -0.5;
             rightPower = 1;
         }
         env.move.setLeftTrackPower(leftPower);
