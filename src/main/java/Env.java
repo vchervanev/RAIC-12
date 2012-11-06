@@ -19,6 +19,7 @@ public class Env {
     public Tank oldSelf = null;
     public Tank self;
     public double moveSpeed = 0;
+    public double moveSpeedMax = 3.55;
     public double rotationSpeed = 0;
     public double rotationSpeedMax = 0;
     public double rotationAcceleration = 0;
@@ -55,7 +56,7 @@ public class Env {
         if (!init)
             return;
 
-        dimention = max(self.getWidth(), self.getHeight())*1.3;
+        dimention = max(self.getWidth(), self.getHeight()) * 1.3;
 
 
         nooks[0] = new Point(dimention, dimention);
@@ -86,7 +87,7 @@ public class Env {
     public double getSpeed(Unit in) {
         double x = in.getSpeedX();
         double y = in.getSpeedY();
-        return Math.sqrt(x*x+y*y);
+        return Math.sqrt(x * x + y * y);
     }
 
     private Tank getTank(int index) {
@@ -135,8 +136,8 @@ public class Env {
             directMoveTo(minNook.x, minNook.y);
         else {
             // ищем координаты ближайшего угла, чтобы встать к нему "задом"
-            double x = self.getX() < world.getWidth()/2 ? 0 : world.getWidth();
-            double y = self.getY() < world.getHeight()/2 ? 0: world.getHeight();
+            double x = self.getX() < world.getWidth() / 2 ? 0 : world.getWidth();
+            double y = self.getY() < world.getHeight() / 2 ? 0 : world.getHeight();
             double angleToNook = self.getAngleTo(x, y);
 
             if (abs(angleToNook) < PI - DELTA) {
@@ -152,24 +153,25 @@ public class Env {
     }
 
 
-
     public void directMoveTo(double x, double y) {
         double leftPower;
         double rightPower;
 
         double angle = self.getAngleTo(x, y);
         double distance = self.getDistanceTo(x, y);
+
+        double delta = DELTA * (1-moveSpeed/moveSpeedMax);
         // задний ход
         if (isBehind(angle, distance)) {
             // abs(angle) > PI/2 - тупой угол
-            if (abs(angle) > PI- DELTA) { // > 5/6 PI
+            if (abs(angle) > PI - delta) { // > 5/6 PI
                 leftPower = -1;
                 rightPower = -1;
             } else if (angle > 0) {
                 leftPower = -1;
                 rightPower = 1;
                 if (distance < 25)
-                rightPower = 0.75;
+                    rightPower = 0.75;
             } else {
                 leftPower = 1;
                 if (distance < 25)
@@ -187,7 +189,7 @@ public class Env {
 //
 //            }else
             // едем топорно
-            if (angle > DELTA) {         // правее дельты
+            if (angle > delta) {         // правее дельты
                 leftPower = 1;
                 if (distance < 25)
                     leftPower = 0.75;
@@ -221,7 +223,7 @@ public class Env {
     }
 
     public boolean isBehind(double angle, double distance) {
-        return abs(angle) > NO_ROTATE && distance < 600*abs(angle)/PI;
+        return abs(angle) > NO_ROTATE && distance < 600 * abs(angle) / PI;
     }
 
     private double roundX(double x) {
