@@ -48,13 +48,20 @@ public class ActionBonus extends Action {
             // бонус нужному бонусу
             if (bonus.getType() == BonusType.MEDIKIT){
                 if (env.self.getCrewHealth() < 70)
-                    cost -= 200;
+                    cost -= 400;
                 else if (env.self.getCrewHealth() < 51)
-                    cost -= 500;
+                    cost -= 600;
                 else if (env.self.getCrewHealth() < 40)
                     cost -= 800;
             }
-            // TODO учитывать текущую скорость (линейную и угловую)
+
+            if (bonus.getType() == BonusType.AMMO_CRATE && env.self.getPremiumShellCount() < 2
+                    && env.self.getCrewHealth() > 50 && env.self.getHullDurability() > 100){
+                cost -= 350;
+            }
+
+
+                // TODO учитывать текущую скорость (линейную и угловую)
             // TODO учитывать препятствия на пути
             if (target == null || cost < currentCost){
                 target = bonus;
