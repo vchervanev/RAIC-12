@@ -111,7 +111,10 @@ public class ActionDodge extends Action {
         for (Unit u : units) {
             boolean test = true;
             for (long id : exlude)
-                test = u.getId() != id;
+                if (u.getId() != id) {
+                    test = false;
+                    break;
+                }
             if (test) {
                 if (chekTrase(p2, p1, u)) return true;
             }
