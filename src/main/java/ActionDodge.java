@@ -60,14 +60,14 @@ public class ActionDodge extends Action {
         d = Math.sqrt((a * a) + (b * b)) / 2; // диагональ прямоугольника
         double beta = Math.atan(b / a);
 
-        x1 = (x0 - d * Math.cos(angle + PI - beta)); // находим точку x1 делением диагонали
-        y1 = (y0 - d * Math.sin(angle + PI - beta)); // находим точку y1 делением диагонали
+        x1 = (x0 + d * Math.cos(angle + PI - beta)); // находим точку x1 делением диагонали
+        y1 = (y0 + d * Math.sin(angle + PI - beta)); // находим точку y1 делением диагонали
         x3 = (x0 + d * Math.cos(angle - beta)); // находим точку x3 добавив к x1 диагональ
         y3 = (y0 + d * Math.sin(angle - beta)); // находим точку y3 добавив к y1 диагональ
-        x2 = (x0 - d * Math.cos(angle + beta));
-        y2 = (y0 - d * Math.sin(angle + beta));
-        x4 = (x0 - d * Math.cos(angle - PI + beta));
-        y4 = (y0 - d * Math.sin(angle - PI + beta));
+        x2 = (x0 + d * Math.cos(angle + beta));
+        y2 = (y0 + d * Math.sin(angle + beta));
+        x4 = (x0 + d * Math.cos(angle - PI + beta));
+        y4 = (y0 + d * Math.sin(angle - PI + beta));
 
         p1.setXY(x1, y1);
         p2.setXY(x2, y2);
@@ -98,8 +98,8 @@ public class ActionDodge extends Action {
         Point px3 = new Point(0, 0);
         Point px4 = new Point(0, 0);
         rectangle(u, px1, px2, px3, px4, SHELL_HEIGHT);
-        if (chekTrase(s1, s2, px1, px2) != null) return true;
-        return chekTrase(s1, s2, px3, px4) != null;
+        if (chekTrase(s1, s2, px1, px3) != null) return true;
+        return chekTrase(s1, s2, px2, px4) != null;
     }
 
     static boolean existWall(Point p1, Point p2, long[] exlude) {
@@ -135,9 +135,9 @@ public class ActionDodge extends Action {
                 s1.setXY(shell.getX(), shell.getY());
                 s2.setXY(shell.getX() + shell.getSpeedX() * 100, shell.getY() + shell.getSpeedY() * 100);
 
-                alarm = chekTrase(s1, s2, p1, p2);
+                alarm = chekTrase(s1, s2, p1, p3);
                 if (alarm == null)
-                    alarm = chekTrase(s1, s2, p3, p4);
+                    alarm = chekTrase(s1, s2, p2, p4);
                 if (alarm != null) {
                     //поиск преград
                     if (existWall(s1, alarm, new long[]{shell.getId(), env.self.getId()})) {
