@@ -1,5 +1,9 @@
 import model.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import static java.lang.StrictMath.*;
 
 /**
@@ -56,7 +60,7 @@ public class Env {
         if (!init)
             return;
 
-        dimention = max(self.getWidth(), self.getHeight()) * 1.3;
+        dimention = max(self.getWidth(), self.getHeight())*1.0;
 
 
         nooks[0] = new Point(dimention, dimention);
@@ -118,20 +122,54 @@ public class Env {
         directMoveTo(unit.getX(), unit.getY());
     }
 
+    public List<Tank> getTargets() {
+        ArrayList<Tank> tmp = new ArrayList<Tank>(Arrays.asList(world.getTanks()));
+        ArrayList<Tank> result = new ArrayList<Tank>();
+        for(Tank tank : tmp) {
+            if (isTarget(tank)){
+                result.add(tank);
+            }
+        }
+        return result;
+    }
+
     public double getDistanceTo(Point point) {
         return self.getDistanceTo(point.x, point.y);
     }
 
     public void moveToCorner() {
+        List<Tank> targets = getTargets();
         double minDist = 0;
         Point minNook = null;
+        double maxDist = 0;
+        Point maxNook = null;
         for (Point nook : nooks) {
             double dist = getDistanceTo(nook);
-            if (dist < minDist || minNook == null) {
+            boolean enemyNook = false;
+            for(Tank target : targets){
+                double targetDistance = target.getDistanceTo(nook.x, nook.y);
+                if(targetDistance < 250 && targetDistance < dist){
+                    // враг ближе к нычке чем мы
+                    enemyNook = true;
+                    break;
+                }
+            }
+            if (!enemyNook && (dist < minDist || minNook == null)) {
                 minDist = dist;
                 minNook = nook;
             }
+            if (dist > maxDist || maxNook == null) {
+                maxDist = dist;
+                maxNook = nook;
+            }
         }
+
+        if (minNook == null) {
+            if (maxNook != null) // защита от предупреждения
+                directMoveTo(maxNook.x, maxNook.y);
+            return;
+        }
+
         if (minDist > dimention / 2)
             directMoveTo(minNook.x, minNook.y);
         else {
