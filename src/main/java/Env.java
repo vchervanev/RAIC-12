@@ -14,6 +14,8 @@ import static java.lang.StrictMath.*;
  * Всё окружающее
  */
 public class Env {
+    // адский флаг, показывает, что мы сидим в углу, но можно вращать корпусом
+    public boolean inTheCorner = false;
     public int tickId = -1;
     boolean init = true;
     public Move oldMove = null;
@@ -23,12 +25,9 @@ public class Env {
     public Tank oldSelf = null;
     public Tank self;
     public double moveSpeed = 0;
-    public double moveSpeedMax = 3.55;
     public double rotationSpeed = 0;
     public double rotationSpeedMax = 0;
     public double rotationAcceleration = 0;
-
-    public Point[] nooks = new Point[4];
 
     private String tmpOutOld;
     private double oldRotationSpeed;
@@ -62,11 +61,6 @@ public class Env {
 
         dimention = max(self.getWidth(), self.getHeight())*1.0;
 
-
-        nooks[0] = new Point(dimention, dimention);
-        nooks[1] = new Point(world.getWidth() - dimention, dimention);
-        nooks[2] = new Point(dimention, world.getHeight() - dimention);
-        nooks[3] = new Point(world.getWidth() - dimention, world.getHeight() - dimention);
         myName = self.getPlayerName();
 
 //        for(Tank tank : world.getTanks()) {
@@ -91,7 +85,7 @@ public class Env {
     public double getSpeed(Unit in) {
         double x = in.getSpeedX();
         double y = in.getSpeedY();
-        return Math.sqrt(x * x + y * y);
+        return Math.sqrt(x*x+y*y);
     }
 
     private Tank getTank(int index) {
@@ -133,61 +127,18 @@ public class Env {
         return result;
     }
 
-    public double getDistanceTo(Point point) {
-        return self.getDistanceTo(point.x, point.y);
+    public boolean isOnTheWay(Unit u1, double x, double y) {
+        Point p1 = new Point(x, y);
+        double angle = u1.getAngle() + PI / 2;
+        double dx = cos(angle)*u1.getWidth()/2.0;
+        double dy = sin(angle)*u1.getHeight()/2.0;
+        Point p2 = new Point(u1.getX() + dx, u1.getY() + dy);
+        Point p3 = new Point(u1.getX() - dx, u1.getY() - dy);
+        return !Geo.isObtuse(p1, p2, p3);
     }
 
-    public void moveToCorner() {
-        List<Tank> targets = getTargets();
-        double minDist = 0;
-        Point minNook = null;
-        double maxDist = 0;
-        Point maxNook = null;
-        for (Point nook : nooks) {
-            double dist = getDistanceTo(nook);
-            boolean enemyNook = false;
-            for(Tank target : targets){
-                double targetDistance = target.getDistanceTo(nook.x, nook.y);
-                if(targetDistance < 250 && targetDistance < dist){
-                    // враг ближе к нычке чем мы
-                    enemyNook = true;
-                    break;
-                }
-            }
-            if (!enemyNook && (dist < minDist || minNook == null)) {
-                minDist = dist;
-                minNook = nook;
-            }
-            if (dist > maxDist || maxNook == null) {
-                maxDist = dist;
-                maxNook = nook;
-            }
-        }
-
-        if (minNook == null) {
-            if (maxNook != null) // защита от предупреждения
-                directMoveTo(maxNook.x, maxNook.y);
-            return;
-        }
-
-        if (minDist > dimention / 2)
-            directMoveTo(minNook.x, minNook.y);
-        else {
-            // ищем координаты ближайшего угла, чтобы встать к нему "задом"
-            double x = self.getX() < world.getWidth() / 2 ? 0 : world.getWidth();
-            double y = self.getY() < world.getHeight() / 2 ? 0 : world.getHeight();
-            double angleToNook = self.getAngleTo(x, y);
-
-            if (abs(angleToNook) < PI - DELTA) {
-                if (angleToNook < 0) {
-                    move.setLeftTrackPower(0.75);
-                    move.setRightTrackPower(-1);
-                } else {
-                    move.setLeftTrackPower(-1);
-                    move.setRightTrackPower(0.75);
-                }
-            }
-        }
+    public double getDistanceTo(Point point) {
+        return self.getDistanceTo(point.x, point.y);
     }
 
 
@@ -197,23 +148,17 @@ public class Env {
 
         double angle = self.getAngleTo(x, y);
         double distance = self.getDistanceTo(x, y);
-
-        double delta = DELTA * (1-moveSpeed/moveSpeedMax);
         // задний ход
         if (isBehind(angle, distance)) {
             // abs(angle) > PI/2 - тупой угол
-            if (abs(angle) > PI - delta) { // > 5/6 PI
+            if (abs(angle) > PI- DELTA || distance < 25) { // > 5/6 PI
                 leftPower = -1;
                 rightPower = -1;
             } else if (angle > 0) {
                 leftPower = -1;
-                rightPower = 1;
-                if (distance < 25)
-                    rightPower = 0.75;
+                rightPower = 0.75;
             } else {
-                leftPower = 1;
-                if (distance < 25)
-                    leftPower = 0.75;
+                leftPower = 0.75;
                 rightPower = -1;
             }
         } else { // передний ход
@@ -227,16 +172,12 @@ public class Env {
 //
 //            }else
             // едем топорно
-            if (angle > delta) {         // правее дельты
-                leftPower = 1;
-                if (distance < 25)
-                    leftPower = 0.75;
+            if (angle > DELTA && distance > 25) {         // правее дельты
+                leftPower = 0.75;
                 rightPower = -1;
-            } else if (angle < -DELTA) {  // левее дельты
+            } else if (angle < -DELTA && distance > 25) {  // левее дельты
                 leftPower = -1;
-                rightPower = 1;
-                if (distance < 25)
-                    rightPower = 0.75;
+                rightPower = 0.75;
             } else { // внутри дельты
                 leftPower = 1;
                 rightPower = 1;
@@ -261,7 +202,7 @@ public class Env {
     }
 
     public boolean isBehind(double angle, double distance) {
-        return abs(angle) > NO_ROTATE && distance < 600 * abs(angle) / PI;
+        return abs(angle) > NO_ROTATE && distance < 600*abs(angle)/PI;
     }
 
     private double roundX(double x) {
@@ -275,12 +216,6 @@ public class Env {
                 || world.getWidth() < self.getX() + self.getWidth()
                 || world.getHeight() < self.getY() + self.getWidth()
         );
-    }
-
-    private boolean isInNook() {
-        for (Point nook : nooks)
-            if (getDistanceTo(nook) < dimention / 2) return true;
-        return false;
     }
 
 }

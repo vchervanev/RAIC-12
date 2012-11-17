@@ -35,4 +35,17 @@ public class Geo {
         return pow(unit1.getX() - x2, 2) + pow(unit1.getY() - y2, 2);
     }
 
+    public static boolean isObtuse(Point p1, Point p2, Point p3) {
+        double a = Point.getDistance2(p1, p2);
+        double b = Point.getDistance2(p1, p3);
+        double c = Point.getDistance2(p2, p3);
+        if (a > b && a > c) {
+            return a > b + c;
+        } else if (b > c && b > a) {
+            return b > a + c;
+        } else {
+            return  c > a + b;
+        }
+    }
+
 }

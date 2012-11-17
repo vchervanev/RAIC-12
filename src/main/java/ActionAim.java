@@ -4,6 +4,7 @@ import model.ShellType;
 import model.Tank;
 
 import static java.lang.Math.*;
+import static java.lang.StrictMath.abs;
 
 /**
  * Created with IntelliJ IDEA.
@@ -28,7 +29,27 @@ public class ActionAim extends Action{
             }
 
 
-            double cost = env.self.getDistanceTo(tank);
+
+            final double hitSize = sqrt(BulletHelper.getHitRadius(env.self, Geo.HitTestMode.maximum));
+            double distance = env.self.getDistanceTo(tank);
+            double cost = distance;
+            double maxAngle = atan(1.2*hitSize/distance);
+            if (abs(tank.getTurretAngleTo(env.self)) <= maxAngle ) {
+                cost += -600 + tank.getRemainingReloadingTime();
+            }
+
+            double newX = tank.getX()+tank.getSpeedX()*8;
+            double newY = tank.getY()+tank.getSpeedY()*8;
+            double turretAngleTo = env.self.getTurretAngleTo(newX, newY);
+            Shell shell = BulletHelper.simulateShell(env.self, ShellType.REGULAR, env.self.getTurretRelativeAngle() + env.self.getAngle() + turretAngleTo);
+            double ttk1 = BulletHelper.hitTest(shell, tank, true).tickCount;
+                    //BulletHelper.checkHit(shell, tank, Geo.HitTestMode.minimum);
+
+            if (ttk1 == -1) {
+                continue; // раньше уменьшали цену
+            }
+
+
 //            double newX = tank.getX()+tank.getSpeedX();
 //            double newY = tank.getY()+tank.getSpeedY();
 //
@@ -67,10 +88,12 @@ public class ActionAim extends Action{
         // TODO выделить, когда достаточно повернуть пушку
         if (target == null) {
             variant = Variant.none;
-        } else if (env.self.getRemainingReloadingTime() > 15){
+        } else if (env.self.getRemainingReloadingTime() > 20){
             variant = Variant.none;
         } else {
-            if (currentCost < 500)
+            if (currentCost < 400)
+                variant = Variant.aimUrgent;
+            else if (currentCost < 500)
                 variant = Variant.aimFast;
             else if (currentCost < 800)
                 variant = Variant.aimAverage;
@@ -83,17 +106,22 @@ public class ActionAim extends Action{
 
     @Override
     public void perform() {
-        assert target != null;
+        if (target == null)
+            return;
+
         // TODO убрать копипаст из частичного эпляя
-        double newX = target.getX()+signum(target.getSpeedX())*12;
-        double newY = target.getY()+signum(target.getSpeedY())*12;
+        double newX = target.getX()+target.getSpeedX()*8;
+        double newY = target.getY()+target.getSpeedY()*8;
         double angle = env.self.getTurretAngleTo(newX, newY);
-        if (abs(angle) < env.self.getTurretTurnSpeed()) {
+
+        final double turretTurnSpeed = env.self.getTurretTurnSpeed()*(0.5 + 0.5*env.self.getCrewHealth()/100);
+
+        if (abs(angle) < turretTurnSpeed) {
             env.move.setTurretTurn(angle);
             return;
         }  else {
-            env.move.setTurretTurn(signum(angle)*env.self.getTurretTurnSpeed());
-            angle -= signum(angle)*env.self.getTurretTurnSpeed();
+            env.move.setTurretTurn(signum(angle)* turretTurnSpeed);
+            angle -= signum(angle)* turretTurnSpeed;
         }
         double leftPower = 0;
         double rightPower = 0;
@@ -110,12 +138,14 @@ public class ActionAim extends Action{
 
     @Override
     public void tryPerformSecondary() {
+        if (target == null)
+            return;
         // TODO сделать проверку, можно ли двигать пушку
         // TODO убрать копипаст сверху
-        double newX = target.getX()+signum(target.getSpeedX())*12;
-        double newY = target.getY()+signum(target.getSpeedY())*12;
+        double newX = target.getX()+target.getSpeedX()*8;
+        double newY = target.getY()+target.getSpeedY()*8;
         double angle = env.self.getTurretAngleTo(newX, newY);
-        if (abs(angle) < env.self.getTurretTurnSpeed()) {
+        if (abs(angle) < env.self.getTurretTurnSpeed()*(0.5 + 0.5*env.self.getCrewHealth()/100)) {
             env.move.setTurretTurn(angle);
         }  else {
             env.move.setTurretTurn(signum(angle)*env.self.getTurretTurnSpeed());

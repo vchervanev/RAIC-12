@@ -34,10 +34,17 @@ public class ActionFire extends Action{
 //            }
 
             Shell shell = BulletHelper.simulateShell(env.self, ShellType.REGULAR);
-            double ttk1 = BulletHelper.checkHit(shell, tank, Geo.HitTestMode.minimum);
+            double ttk1 = BulletHelper.hitTest(shell, tank, true).tickCount;
+                    //checkHit(shell, tank, Geo.HitTestMode.minimum);
             shell = BulletHelper.simulateShell(env.self, ShellType.PREMIUM);
-            double ttk2 = BulletHelper.checkHit(shell, tank, Geo.HitTestMode.minimum);
-            if (ttk2 != -1 && env.self.getPremiumShellCount() != 0) {
+            double ttk2 = -1;
+            final double distanceToTank = env.self.getDistanceTo(tank);
+            if  (env.self.getPremiumShellCount() != 0 &&
+                    ((distanceToTank < 600 ) || (distanceToTank < 800 && tank.getCrewHealth() < 40))) {
+                ttk2 = BulletHelper.hitTest(shell, tank, true).tickCount;
+                        //checkHit(shell, tank, Geo.HitTestMode.minimum);
+            }
+            if (ttk2 != -1) {
                 fireType = FireType.PREMIUM_PREFERRED;
             } else if (ttk1 != -1) {
                 fireType = FireType.REGULAR;

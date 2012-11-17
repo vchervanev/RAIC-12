@@ -48,20 +48,13 @@ public class ActionBonus extends Action {
             // бонус нужному бонусу
             if (bonus.getType() == BonusType.MEDIKIT){
                 if (env.self.getCrewHealth() < 70)
-                    cost -= 400;
+                    cost -= 200;
                 else if (env.self.getCrewHealth() < 51)
-                    cost -= 600;
+                    cost -= 500;
                 else if (env.self.getCrewHealth() < 40)
                     cost -= 800;
             }
-
-            if (bonus.getType() == BonusType.AMMO_CRATE && env.self.getPremiumShellCount() < 2
-                    && env.self.getCrewHealth() > 50 && env.self.getHullDurability() > 100){
-                cost -= 350;
-            }
-
-
-                // TODO учитывать текущую скорость (линейную и угловую)
+            // TODO учитывать текущую скорость (линейную и угловую)
             // TODO учитывать препятствия на пути
             if (target == null || cost < currentCost){
                 target = bonus;
@@ -89,7 +82,9 @@ public class ActionBonus extends Action {
 
     @Override
     public void perform() {
-        assert target != null;
+        if (target == null){
+            return;
+        }
         env.directMoveTo(target);
 
     }

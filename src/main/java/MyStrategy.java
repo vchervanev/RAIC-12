@@ -7,7 +7,7 @@ import static java.lang.Thread.sleep;
 import static java.util.Collections.sort;
 
 public final class MyStrategy implements Strategy {
-
+    NetGraphClient ngc = new NetGraphClient("localhost", 8888);
     Action action = null;
     Variant variant = Variant.none;
     public static Env env = new Env();
@@ -16,34 +16,37 @@ public final class MyStrategy implements Strategy {
 //    ArrayList<Long> tankIds = new ArrayList<Long>();
     ArrayList<Action> actions = new ArrayList<Action>();
     {
-//        actions.add(new RandomMove());
+        initActions();
+    }
+
+    private void initActions() {
+        //        actions.add(new RandomMove());
         actions.add(new ActionBonus());
         actions.add(new ActionFire());
         actions.add(new ActionAim());
         actions.add(new ActionDodge());
         actions.add(new ActionHide());
+        actions.add(new CombatPosition());
     }
 
     @Override
     public void move(Tank self, World world, Move move) {
-//        try {
-//            sleep(50);
-//        } catch (InterruptedException e) {}
 
-        env.init(self, world, move);
+        try{
+            ngc.update(world);
+            env.init(self, world, move);
+            act();
+            id++;
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        Unit unit = getNearestBonus();
-//        if (unit == null) {
-//            unit = getTank(0);
-//        }
-        //directMoveTo(unit);
+    }
 
-//        analyzeAccelerate();
-//        analyzeRotation();
-
-        //move.setTurretTurn(PI);
-        //move.setFireType(FireType.PREMIUM_PREFERRED);
-
+    private void act() {
+        if (actions.size() == 0) {
+            return;
+        }
         for(Action action : actions) {
             action.estimate();
         }
@@ -58,49 +61,21 @@ public final class MyStrategy implements Strategy {
             System.out.printf("%d\t%s\t%s\n", id, action.getClass().getSimpleName(), variant.toString());
         }
 
-
         int index = 0;
         for(Action action : actions) {
-            if (index++ == 0){
+            if (index++ == 0 && action.variant != Variant.none){
                 action.perform();
             } else {
                 action.tryPerformSecondary();
             }
         }
 
-//        for(Shell shell : env.world.getShells()) {
-//            int ticks = BulletHelper.checkHit(shell, env.self);
-//            if (ticks == 0) {
-//                ticks = BulletHelper.checkHit(shell, env.self);
-//            }
-//            if (ticks != -1) {
-//                System.out.printf("%d\t%d\n", shell.getId(), ticks);
-//                analyzeShells();
-//            }
-//        }
+    }
 
-//        analyzeShells();
-
-        // счетчик тиков
-
-
-        if (env.move.getLeftTrackPower() == 0 && env.move.getRightTrackPower() == 0) {
-            double angleToTurret = env.self.getTurretRelativeAngle();
-            if (abs(angleToTurret) > PI/2) {
-                double delta = angleToTurret - signum(angleToTurret)*PI/2;
-                if (delta > 0){
-                    move.setLeftTrackPower(0.75);
-                    move.setRightTrackPower(-1);
-                } else {
-                    move.setLeftTrackPower(-1);
-                    move.setRightTrackPower(0.75);
-                }
-            }
-
-        }
-
-        id++;
-
+    private void analyzeMovement(double sl,double sr) {
+        System.out.printf("%d\t%f\t%f\t%f\t%d\n", env.tickId, env.self.getX(), env.self.getY(), env.self.getAngle(), env.self.getCrewHealth());
+        env.move.setLeftTrackPower(sl);
+        env.move.setRightTrackPower(sr);
     }
 
     private void analyzeShells() {
