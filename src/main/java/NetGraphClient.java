@@ -156,7 +156,7 @@ public class NetGraphClient {
         if (socket == null)
             return;
         if (firstRun) {
-            resizeImage(world.getWidth(), world.getHeight()+40);
+            resizeImage(world.getWidth(), world.getHeight());
             firstRun = false;
         }
         this.world = world;
@@ -204,7 +204,7 @@ public class NetGraphClient {
         //clearRect(world.getWidth(), 0, 200, world.getHeight());
         clearRect(0, world.getHeight(), world.getWidth(), 40);
         setColor("red");
-        drawString(Long.toString(world.getTick()), 10, 820);
+        drawString(Long.toString(world.getTick()), 10, 800);
         sendCommand("update");
 
     }

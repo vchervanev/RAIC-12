@@ -206,7 +206,7 @@ public class BulletHelper {
             double minR = sqrt(getHitRadius(unit, Geo.HitTestMode.minimum));
             double maxR = sqrt(getHitRadius(unit, Geo.HitTestMode.maximum));
             // k 0..1
-            double k = tank.getCrewHealth()/tank.getCrewMaxHealth();
+            double k = tank.getCrewHealth()/(double)tank.getCrewMaxHealth();
             double r = maxR - (maxR - minR)*k;
 
             if (abs(fireR) > r)

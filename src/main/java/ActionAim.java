@@ -3,8 +3,12 @@ import model.Shell;
 import model.ShellType;
 import model.Tank;
 
+import java.util.Comparator;
+import java.util.List;
+
 import static java.lang.Math.*;
 import static java.lang.StrictMath.abs;
+import static java.util.Collections.sort;
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,27 +24,19 @@ public class ActionAim extends Action{
 
     @Override
     public void estimate() {
-        Tank[] tanks = env.world.getTanks();
         target = null;
-        double currentCost = 0;
-        for(Tank tank : tanks) {
-            if (!env.isTarget(tank)) {
-                continue;
+
+        List<Tank> targets = env.getTargets();
+        sort(targets, new Comparator<Tank>() {
+            @Override
+            public int compare(Tank o1, Tank o2) {
+                return (int)round(Geo.getDistancePow2(env.self, o1) - Geo.getDistancePow2(env.self, o2));
             }
+        });
 
+        for(Tank tank : targets) {
 
-
-            final double hitSize = sqrt(BulletHelper.getHitRadius(env.self, Geo.HitTestMode.maximum));
-            double distance = env.self.getDistanceTo(tank);
-            double cost = distance;
-            double maxAngle = atan(1.2*hitSize/distance);
-            if (abs(tank.getTurretAngleTo(env.self)) <= maxAngle ) {
-                cost += -600 + tank.getRemainingReloadingTime();
-            }
-
-            double newX = tank.getX()+tank.getSpeedX()*8;
-            double newY = tank.getY()+tank.getSpeedY()*8;
-            double turretAngleTo = env.self.getTurretAngleTo(newX, newY);
+            double turretAngleTo = env.self.getTurretAngleTo(tank);
             Shell shell = BulletHelper.simulateShell(env.self, ShellType.REGULAR, env.self.getTurretRelativeAngle() + env.self.getAngle() + turretAngleTo);
             double ttk1 = BulletHelper.hitTest(shell, tank, true).tickCount;
                     //BulletHelper.checkHit(shell, tank, Geo.HitTestMode.minimum);
@@ -49,58 +45,17 @@ public class ActionAim extends Action{
                 continue; // раньше уменьшали цену
             }
 
-
-//            double newX = tank.getX()+tank.getSpeedX();
-//            double newY = tank.getY()+tank.getSpeedY();
-//
-//            double turretAngleTo = env.self.getTurretAngleTo(newX, newY);
-//
-//            Shell shell = BulletHelper.simulateShell(env.self, ShellType.REGULAR, env.self.getTurretRelativeAngle() + env.self.getAngle() + turretAngleTo);
-//            double ttk1 = BulletHelper.checkHit(shell, tank, Geo.HitTestMode.minimum);
-//
-//            if (ttk1 == -1 && env.self.getPremiumShellCount() != 0) {
-//                shell = BulletHelper.simulateShell(env.self, ShellType.PREMIUM, env.self.getTurretRelativeAngle() + env.self.getAngle() + turretAngleTo);
-//                ttk1 = BulletHelper.checkHit(shell, tank, Geo.HitTestMode.minimum);
-//                if (ttk1 == -1) {
-//                    currentCost = 3000;
-//                }
-//            }
-
-
-//            double angleCost = 400*abs(turretAngleTo)/PI;
-//            angleCost *= angleCost;
-//            cost += angleCost;
-
-            //бонус за дохликов
-            double health = min(tank.getCrewHealth(), tank.getHullDurability());
-//            cost -= 600*(1 - health/100.0);
-            if (health < 21){
-                cost -= 300;
-            }
-
-
-
-            if (target == null || currentCost > cost) {
-                target = tank;
-                currentCost = cost;
-            }
+            target = tank;
+            break;
         }
         // TODO выделить, когда достаточно повернуть пушку
-        if (target == null) {
-            variant = Variant.none;
-        } else if (env.self.getRemainingReloadingTime() > 20){
+        if (target == null || env.self.getRemainingReloadingTime() > 20+60*(1-env.self.getCrewHealth()/env.self.getCrewMaxHealth())) {
             variant = Variant.none;
         } else {
-            if (currentCost < 400)
+            if (Math.abs(env.self.getTurretAngleTo(target)) > PI / 6)
                 variant = Variant.aimUrgent;
-            else if (currentCost < 500)
-                variant = Variant.aimFast;
-            else if (currentCost < 800)
-                variant = Variant.aimAverage;
-            else if (currentCost < 2000)
-                variant = Variant.aimSlow;
             else
-                variant = Variant.none;
+                variant = Variant.aimFast;
         }
     }
 

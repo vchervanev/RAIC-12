@@ -7,7 +7,7 @@ import static java.lang.Thread.sleep;
 import static java.util.Collections.sort;
 
 public final class MyStrategy implements Strategy {
-    NetGraphClient ngc = new NetGraphClient("localhost", 8888);
+//    NetGraphClient ngc = new NetGraphClient("localhost", 8888);
     Action action = null;
     Variant variant = Variant.none;
     public static Env env = new Env();
@@ -33,9 +33,11 @@ public final class MyStrategy implements Strategy {
     public void move(Tank self, World world, Move move) {
 
         try{
-            ngc.update(world);
+//            if (self.getTeammateIndex() == 0)
+//                ngc.update(world);
             env.init(self, world, move);
-            act();
+            if (self.getCrewHealth() > 0 && self.getHullDurability() > 0)
+                act();
             id++;
         }catch (Exception e) {
             e.printStackTrace();

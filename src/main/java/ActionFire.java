@@ -28,11 +28,6 @@ public class ActionFire extends Action{
             if (!env.isTarget(tank)) {
                 continue;
             }
-//            if (abs(env.self.getTurretAngleTo(tank)) < PI/180) {
-//                variant = Variant.fireAndKill;
-//                fireType = FireType.PREMIUM_PREFERRED;
-//            }
-
             Shell shell = BulletHelper.simulateShell(env.self, ShellType.REGULAR);
             double ttk1 = BulletHelper.hitTest(shell, tank, true).tickCount;
                     //checkHit(shell, tank, Geo.HitTestMode.minimum);
