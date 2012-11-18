@@ -116,20 +116,22 @@ public class BulletHelper {
     }
 
     public static Shell simulateShell(Tank tank, ShellType shellType, double angle) {
+        return simulateShell(tank, shellType, tank.getX(), tank.getY(), angle);
+    }
+
+    public static Shell simulateShell(Tank tank, ShellType shellType, double x, double y, double angle) {
         double speed = shellType == ShellType.REGULAR ? 16.7 : 13.3;
         double length = tank.getVirtualGunLength();
-        Shell shell = new Shell(newId++, "", 5, 5, tank.getX() + length*cos(angle), tank.getY() + length*sin(angle),
-                /*tank.getSpeedX() + */speed*cos(angle), /*tank.getSpeedY() + */speed*sin(angle), angle, 0, shellType);
-        return shell;
+        return  new Shell(newId++, "", 5, 5, x + length*cos(angle), y + length*sin(angle),
+                speed*cos(angle), speed*sin(angle), angle, 0, shellType);
     }
 
     public static HitTestResult hitTest(Shell shell, Unit unit, boolean strong){
         int ticks = getTickCountToHit(shell, unit);
-        double delta = ticks*(sqrt(unit.getSpeedX()*unit.getSpeedX() + unit.getSpeedY()*unit.getSpeedY()));
-        if (delta > 50)
-            return HitTestResult.Miss;
+        double dx = 0.8 * ticks * unit.getSpeedX();
+        double dy = 0.8 * ticks * unit.getSpeedY();
 
-        return hitTest(shell, unit, unit.getX(), unit.getY(), unit.getAngle(), strong);
+        return hitTest(shell, unit, unit.getX() + dx, unit.getY() + dy, unit.getAngle(), strong);
     }
 
     public static boolean hitTestTank(Tank tank, Section trace, double hitRadius) {
@@ -186,6 +188,29 @@ public class BulletHelper {
 
         return points;
     }
+
+    public static boolean positionTest(Unit unit, double x, double y, double angle) {
+        Point[] points = getUnitPoints(unit, x, y, angle, 0);
+        // проверка на границы мира
+        for(Point point : points) {
+            if (point.x < 0 || point.x > env.world.getWidth() || point.y < 0 || point.y > env.world.getHeight())
+                return false;
+        }
+        // проверка на пересечение с танком
+        // для грубой оценки
+//        double r1 = sqrt(getHitRadius(unit, Geo.HitTestMode.maximum));
+//        for(Tank tank : env.world.getTanks()) {
+//            if (tank.getId() != unit.getId()) {
+//                double r2 = sqrt(getHitRadius(tank, Geo.HitTestMode.maximum));
+//                if (unit.getDistanceTo(tank) < r1 + r2) {
+//                    // нужна детальная проверка
+//                }
+//
+//            }
+//        }
+        return true;
+    }
+
     /** stronger - признак проверки "попаду наверняка" */
     public static HitTestResult hitTest(Shell shell, Unit unit, double x, double y, double angle, boolean stronger) {
 
@@ -247,6 +272,18 @@ public class BulletHelper {
         // показываем куда попали
         return new HitTestResult(getTickCountToHit(shell, hitPoint), TankSideType.Face, 0, hitPoint, hitInfo.section);
 
+    }
+
+    public static int getTickCountToHitSimple(double distance) {
+        double speed = 16.7;
+        double k = 1 - 1.0/99;
+        int count = 0;
+        while(distance > 0) {
+            distance -= speed;
+            speed *= k;
+            count++;
+        }
+        return count;
     }
 
     public static int getTickCountToHit(Shell shell, Unit unit) {

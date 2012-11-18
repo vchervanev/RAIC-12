@@ -30,20 +30,26 @@ public class ActionBonus extends Action {
         for(Bonus bonus : bonuses) {
             double cost = env.self.getDistanceTo(bonus);
 
-            double cost2 = cost*cost;
             // штраф за танки на пути
+            boolean skip = false;
             for(Tank tank : tanks) {
-                if (tank.getPlayerName().equals(env.self.getPlayerName()) ){
+                if (tank.getPlayerName().equals(env.self.getPlayerName()) || tank.getCrewHealth() == 0
+                        || tank.getHullDurability() == 0){
                     continue;
                 }
-                double add = Geo.getDistancePow2(env.self, tank) + Geo.getDistancePow2(bonus, tank);
-
-                if (add - cost2 < 4900)
-                    cost += 1000;
+                double enemyDistance = tank.getDistanceTo(bonus);
+                // враг недалеко и ближе нас
+                if (enemyDistance < 600 && enemyDistance < cost) {
+                    skip = true;
+                    break;
+                }
+            }
+            if (skip) {
+                continue;
             }
 
             // штраф за угол поворота
-            cost += 250*(1-abs(1-2*abs(env.self.getAngleTo(bonus))/PI));
+            cost += 350*(1-abs(1-2*abs(env.self.getAngleTo(bonus))/PI));
 
             // бонус нужному бонусу
             if (bonus.getType() == BonusType.MEDIKIT){
@@ -54,8 +60,6 @@ public class ActionBonus extends Action {
                 else if (env.self.getCrewHealth() < 40)
                     cost -= 800;
             }
-            // TODO учитывать текущую скорость (линейную и угловую)
-            // TODO учитывать препятствия на пути
             if (target == null || cost < currentCost){
                 target = bonus;
                 currentCost = cost;
@@ -72,10 +76,10 @@ public class ActionBonus extends Action {
             variant = Variant.bonusFarAway;
         }
 
-        if (target.getType() == BonusType.MEDIKIT && env.self.getCrewHealth() < 60) {
+        if ((target.getType() == BonusType.MEDIKIT && env.self.getCrewHealth() < 60) || env.self.getDistanceTo(target) < 200 ) {
             variant = Variant.bonusUrgent;
         }
-        if (target.getType() == BonusType.REPAIR_KIT && env.self.getHullDurability() < 70) {
+        if ((target.getType() == BonusType.REPAIR_KIT && env.self.getHullDurability() < 70) || env.self.getDistanceTo(target) < 200 ) {
             variant = Variant.bonusUrgent;
         }
     }

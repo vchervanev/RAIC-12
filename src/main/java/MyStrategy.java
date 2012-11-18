@@ -60,7 +60,7 @@ public final class MyStrategy implements Strategy {
         if (action != newAction || variant != newVariant) {
             action = newAction;
             variant = newVariant;
-            System.out.printf("%d\t%s\t%s\n", id, action.getClass().getSimpleName(), variant.toString());
+            System.out.printf("[%d]%d\t%s\t%s\n", env.self.getTeammateIndex(), id, action.getClass().getSimpleName(), variant.toString());
         }
 
         int index = 0;
