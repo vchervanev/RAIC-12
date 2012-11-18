@@ -10,13 +10,15 @@ public class HitTestResult {
     public TankSideType tankSideType;
     public double hitAngle;
     public Point point;
+    public Section section;
 
 
-    public HitTestResult(int tickCount, TankSideType tankSideType, double hitAngle, Point point) {
+    public HitTestResult(int tickCount, TankSideType tankSideType, double hitAngle, Point point, Section section) {
         this.point = point;
         this.tickCount = tickCount;
         this.tankSideType = tankSideType;
         this.hitAngle = hitAngle;
+        this.section = section;
     }
 
     @Override
@@ -36,5 +38,5 @@ public class HitTestResult {
             return "Hit in " + tickCount + " tick(s) at " + tankSideType.toString() + " on " + hitAngle + " angle";
     }
 
-    public static final HitTestResult Miss = new HitTestResult(-1, TankSideType.Face, 0, Point.NaP);
+    public static final HitTestResult Miss = new HitTestResult(-1, TankSideType.Face, 0, Point.NaP, null);
 }

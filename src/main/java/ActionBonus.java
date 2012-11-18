@@ -64,7 +64,7 @@ public class ActionBonus extends Action {
         if (target == null){
             variant = Variant.none;
             return;
-        } else if (currentCost < 200) {
+        } else if (currentCost < 400) {
             variant = Variant.bonusNearly;
         } else if (currentCost < 600) {
             variant = Variant.bonusAverage;

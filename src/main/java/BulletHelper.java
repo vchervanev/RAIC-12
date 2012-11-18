@@ -20,71 +20,94 @@ public class BulletHelper {
         }
     }
 
-    public static int checkHit(Shell shell, Tank tank, Geo.HitTestMode hitTestMode) {
-        int ticks = 0;
-        double distance = Geo.getDistancePow2(shell, tank);
-        double newDistance = distance;
-
-        double x1 = shell.getX();
-        double y1 = shell.getY();
-
-        double x2 = tank.getX();
-        double y2 = tank.getY();
-
-        double vx1 = shell.getSpeedX()/2.0;
-        double vy1 = shell.getSpeedY()/2.0;
-
-        double a1 = 1 - (shell.getType() == ShellType.REGULAR ? 1.0/99 : 1.0/199.0);
-        double a2 = 1;
-
-        double hitRadius = getHitRadius(tank, hitTestMode);
-        double hitRadiusShell = getHitRadius(shell, hitTestMode);
-
-        // в минимальном режиме максимальные помехи (проверка на попадание)
-        // в максимальном режиме минимальные помехи (проверка на защиту)
-        Geo.HitTestMode altMode = hitTestMode == Geo.HitTestMode.minimum ? Geo.HitTestMode.maximum : Geo.HitTestMode.minimum;
-        double hitRadiusShellAlt = getHitRadius(shell, altMode);
-
-        do {
-            distance = newDistance;
-
-            x1 += vx1;
-            vx1 *= a1;
-            y1 += vy1;
-            vy1 *= a1;
-
-            x2 += tank.getSpeedX()/2.0;
-            y2 += tank.getSpeedY()/2.0;
-
-            newDistance = pow(x1 - x2, 2) + pow(y1 - y2, 2);
-            for(Bonus bonus : MyStrategy.env.world.getBonuses()) {
-                double aHitRadius = getHitRadius(bonus, altMode);
-                if (altMode == Geo.HitTestMode.maximum) {
-                    aHitRadius += 5;
-                }
-
-                if (Geo.getDistancePow2(bonus, x1, y1) < aHitRadius + hitRadiusShellAlt) {
-                    //System.out.print("bonus stops bullet\n");
-                    return -1;
-                }
-            }
-
-            for(Tank aTank :  MyStrategy.env.world.getTanks()) {
-                double aHitRadius = getHitRadius(aTank, altMode);
-
-                if (    aTank.getId() != tank.getId() &&
-//                        !aTank.getPlayerName().equals(tank.getPlayerName())
-//                        && aTank.getCrewHealth() != 0 && aTank.getHullDurability() != 0 &&
-                        Geo.getDistancePow2(aTank, x1, y1) < aHitRadius + hitRadiusShellAlt)
-                    return -1;
-            }
-
-            if (newDistance < hitRadius + hitRadiusShell)
-                return ticks/2;
-            ticks++;
-        } while (newDistance < distance);
-        return -1;
+    // реальный радиус поражения
+    public static double getHitRadius(Unit attacker, Unit target) {
+        return getAimInfo(attacker, target).radius;
     }
+
+    public static AimInfo getAimInfo(Unit attacker, Unit target) {
+        Point[] points = getUnitPoints(target);
+        AimInfo aimInfo = new AimInfo();
+        aimInfo.minAngle = 10;
+        aimInfo.maxAngle = -10;
+
+        for(Point point : points) {
+            double angle = attacker.getAngleTo(point.x, point.y);
+            if (angle > aimInfo.maxAngle)
+                aimInfo.maxAngle = angle;
+            if (angle < aimInfo.minAngle)
+                aimInfo.minAngle = angle;
+        }
+        double viewAngle = (aimInfo.maxAngle - aimInfo.minAngle)/2.0;
+        aimInfo.radius = attacker.getDistanceTo(target)*sin(viewAngle);
+        return aimInfo;
+    }
+
+//    public static int checkHit(Shell shell, Tank tank, Geo.HitTestMode hitTestMode) {
+//        int ticks = 0;
+//        double distance = Geo.getDistancePow2(shell, tank);
+//        double newDistance = distance;
+//
+//        double x1 = shell.getX();
+//        double y1 = shell.getY();
+//
+//        double x2 = tank.getX();
+//        double y2 = tank.getY();
+//
+//        double vx1 = shell.getSpeedX()/2.0;
+//        double vy1 = shell.getSpeedY()/2.0;
+//
+//        double a1 = 1 - (shell.getType() == ShellType.REGULAR ? 1.0/99 : 1.0/199.0);
+//        double a2 = 1;
+//
+//        double hitRadius = getHitRadius(tank, hitTestMode);
+//        double hitRadiusShell = getHitRadius(shell, hitTestMode);
+//
+//        // в минимальном режиме максимальные помехи (проверка на попадание)
+//        // в максимальном режиме минимальные помехи (проверка на защиту)
+//        Geo.HitTestMode altMode = hitTestMode == Geo.HitTestMode.minimum ? Geo.HitTestMode.maximum : Geo.HitTestMode.minimum;
+//        double hitRadiusShellAlt = getHitRadius(shell, altMode);
+//
+//        do {
+//            distance = newDistance;
+//
+//            x1 += vx1;
+//            vx1 *= a1;
+//            y1 += vy1;
+//            vy1 *= a1;
+//
+//            x2 += tank.getSpeedX()/2.0;
+//            y2 += tank.getSpeedY()/2.0;
+//
+//            newDistance = pow(x1 - x2, 2) + pow(y1 - y2, 2);
+//            for(Bonus bonus : MyStrategy.env.world.getBonuses()) {
+//                double aHitRadius = getHitRadius(bonus, altMode);
+//                if (altMode == Geo.HitTestMode.maximum) {
+//                    aHitRadius += 5;
+//                }
+//
+//                if (Geo.getDistancePow2(bonus, x1, y1) < aHitRadius + hitRadiusShellAlt) {
+//                    //System.out.print("bonus stops bullet\n");
+//                    return -1;
+//                }
+//            }
+//
+//            for(Tank aTank :  MyStrategy.env.world.getTanks()) {
+//                double aHitRadius = getHitRadius(aTank, altMode);
+//
+//                if (    aTank.getId() != tank.getId() &&
+////                        !aTank.getPlayerName().equals(tank.getPlayerName())
+////                        && aTank.getCrewHealth() != 0 && aTank.getHullDurability() != 0 &&
+//                        Geo.getDistancePow2(aTank, x1, y1) < aHitRadius + hitRadiusShellAlt)
+//                    return -1;
+//            }
+//
+//            if (newDistance < hitRadius + hitRadiusShell)
+//                return ticks/2;
+//            ticks++;
+//        } while (newDistance < distance);
+//        return -1;
+//    }
     static long newId = 99999;
 
     /** Метод создает пулю, словно ее выстрелил танк*/
@@ -112,14 +135,14 @@ public class BulletHelper {
     public static boolean hitTestTank(Tank tank, Section trace, double hitRadius) {
         Point[] points = getUnitPoints(tank, tank.getX(), tank.getY(), tank.getAngle(), hitRadius);
         Section[] sections = getSections(points);
-        Point hitPoint = getHitPoint(trace, sections);
+        Point hitPoint = getHitPoint(trace, sections).hitPoint;
         return !hitPoint.equals(Point.NaP);
     }
 
     public static boolean hitTestBonus(Bonus bonus, Section trace, double hitRadius) {
         Point[] points = getSimpleUnitPoints(bonus, hitRadius);
         Section[] sections = getSections(points);
-        Point hitPoint = getHitPoint(trace, sections);
+        Point hitPoint = getHitPoint(trace, sections).hitPoint;
         return !hitPoint.equals(Point.NaP);
     }
     public static Point[] getSimpleUnitPoints(Unit unit, double hitRadius) {
@@ -140,6 +163,9 @@ public class BulletHelper {
         return sections;
     }
 
+    public static Point[] getUnitPoints(Unit unit) {
+        return getUnitPoints(unit, unit.getX(), unit.getY(), unit.getAngle(), 0);
+    }
     public static Point[] getUnitPoints(Unit unit, double x, double y, double angle, double hitSize) {
         Point c = new Point(x, y);
         Point dx1 = new Point(unit.getWidth()/2, 0);
@@ -173,7 +199,8 @@ public class BulletHelper {
         Section[] hitSections = getSections(points);
 
         // точки пробития
-        Point hitPoint = getHitPoint(trace, hitSections);
+        HitInfo hitInfo = getHitPoint(trace, hitSections);
+        Point hitPoint = hitInfo.hitPoint;
 
         if (hitPoint.equals(Point.NaP)) {
             return HitTestResult.Miss;
@@ -200,7 +227,7 @@ public class BulletHelper {
             double distance = shell.getDistanceTo(tank);
             double fireR = distance*sin(shell.getAngleTo(tank));
             double minR = sqrt(getHitRadius(unit, Geo.HitTestMode.minimum));
-            double maxR = sqrt(getHitRadius(unit, Geo.HitTestMode.maximum));
+            double maxR = getHitRadius(env.self, unit);
             // k 0..1
             double k = tank.getCrewHealth()/(double)tank.getCrewMaxHealth();
             double r = maxR - (maxR - minR)*k;
@@ -208,9 +235,17 @@ public class BulletHelper {
             if (abs(fireR) > r)
                 return HitTestResult.Miss;
         }
-
+        // проверка на рикошет
+        Section attackSection = new Section(new Point(shell), hitPoint);
+        if (shell.getType() == ShellType.REGULAR) {
+            double angle1 = atan(attackSection.getK());
+            double angle2 = atan(hitInfo.section.getK());
+            if (abs(angle1 - angle2) <= PI/6 && env.self.getRemainingReloadingTime() == 0) {
+                return HitTestResult.Miss;
+            }
+        }
         // показываем куда попали
-        return new HitTestResult(getTickCountToHit(shell, hitPoint), TankSideType.Face, 0, hitPoint);
+        return new HitTestResult(getTickCountToHit(shell, hitPoint), TankSideType.Face, 0, hitPoint, hitInfo.section);
 
     }
 
@@ -229,15 +264,15 @@ public class BulletHelper {
         }
         return count;
     }
-    private static Point getHitPoint(Section trace, Section[] hitSections) {
+    private static HitInfo getHitPoint(Section trace, Section[] hitSections) {
         for(int i=0; i<4;i++) {
             Point hitPoint = Section.getIntersection(trace, hitSections[i]);
             if (!hitPoint.equals(Point.NaP)) {
-                return hitPoint;
+                return new HitInfo(hitPoint, hitSections[i]);
             }
         }
 
-        return Point.NaP;
+        return new HitInfo(Point.NaP, null);
     }
 
     public static Section getShellSection(Shell shell, double radius) {
@@ -245,5 +280,17 @@ public class BulletHelper {
         double angle = shell.getAngle();
         Point p2 = new Point(shell.getX() + radius * cos(angle), shell.getY() + radius * sin(angle));
         return  new Section(p1, p2);
+    }
+
+
+}
+
+class HitInfo {
+    Point hitPoint;
+    Section section;
+
+    public HitInfo(Point hitPoint, Section hitSection) {
+        this.section = hitSection;
+        this.hitPoint = hitPoint;
     }
 }
