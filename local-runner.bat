@@ -1,2 +1,1 @@
-javaw -cp ".;*;%~dp0/*" -jar "local-runner.jar"
-local-runner.bat
+start javaw -cp ".;*;%~dp0/*" -jar "local-runner.jar" true false 1 result.txt
