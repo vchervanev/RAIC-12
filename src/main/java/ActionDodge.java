@@ -17,6 +17,11 @@ public class ActionDodge extends Action {
     @Override
     public void estimate() {
 
+        if (env.world.getTick() < 150) {
+            variant = Variant.none;
+            shell = null;
+            return;
+        }
         Shell[] shells = env.world.getShells();
         double ticks = -1;
         for (Shell aShell : shells) {

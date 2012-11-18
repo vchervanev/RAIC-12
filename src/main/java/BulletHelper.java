@@ -189,7 +189,7 @@ public class BulletHelper {
     /** stronger - признак проверки "попаду наверняка" */
     public static HitTestResult hitTest(Shell shell, Unit unit, double x, double y, double angle, boolean stronger) {
 
-        double hitRadius = stronger ? shell.getHeight()/2 : 0;
+        double hitRadius = stronger ? shell.getHeight() : 0;
 
 
         Point[] points = getUnitPoints(unit, x, y, angle, hitRadius);
