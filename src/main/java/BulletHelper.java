@@ -110,23 +110,23 @@ public class BulletHelper {
     }
 
     public static boolean hitTestTank(Tank tank, Section trace, double hitRadius) {
-        Point[] points = getUnitPoints(tank, tank.getX(), tank.getY(), tank.getAngle());
+        Point[] points = getUnitPoints(tank, tank.getX(), tank.getY(), tank.getAngle(), hitRadius);
         Section[] sections = getSections(points);
-        Point hitPoint = getHitPoint(hitRadius, trace, sections);
+        Point hitPoint = getHitPoint(trace, sections);
         return !hitPoint.equals(Point.NaP);
     }
 
     public static boolean hitTestBonus(Bonus bonus, Section trace, double hitRadius) {
-        Point[] points = getSimpleUnitPoints(bonus);
+        Point[] points = getSimpleUnitPoints(bonus, hitRadius);
         Section[] sections = getSections(points);
-        Point hitPoint = getHitPoint(hitRadius, trace, sections);
+        Point hitPoint = getHitPoint(trace, sections);
         return !hitPoint.equals(Point.NaP);
     }
-    public static Point[] getSimpleUnitPoints(Unit unit) {
-        Point p1 = new Point(unit.getX() + unit.getWidth()/2, unit.getY() - unit.getHeight()/2);
-        Point p2 = new Point(unit.getX() + unit.getWidth()/2, unit.getY() + unit.getHeight()/2);
-        Point p3 = new Point(unit.getX() - unit.getWidth()/2, unit.getY() + unit.getHeight()/2);
-        Point p4 = new Point(unit.getX() - unit.getWidth()/2, unit.getY() + unit.getHeight()/2);
+    public static Point[] getSimpleUnitPoints(Unit unit, double hitRadius) {
+        Point p1 = new Point(unit.getX() + unit.getWidth()/2 + hitRadius, unit.getY() - unit.getHeight()/2 - hitRadius);
+        Point p2 = new Point(unit.getX() + unit.getWidth()/2 + hitRadius, unit.getY() + unit.getHeight()/2 + hitRadius);
+        Point p3 = new Point(unit.getX() - unit.getWidth()/2 - hitRadius, unit.getY() + unit.getHeight()/2 + hitRadius);
+        Point p4 = new Point(unit.getX() - unit.getWidth()/2 - hitRadius, unit.getY() - unit.getHeight()/2 - hitRadius);
         return new Point[] {p1, p2, p3, p4};
     }
 
@@ -140,7 +140,7 @@ public class BulletHelper {
         return sections;
     }
 
-    public static Point[] getUnitPoints(Unit unit, double x, double y, double angle) {
+    public static Point[] getUnitPoints(Unit unit, double x, double y, double angle, double hitSize) {
         Point c = new Point(x, y);
         Point dx1 = new Point(unit.getWidth()/2, 0);
         Point dy1 = new Point(0, unit.getHeight()/2);
@@ -151,7 +151,7 @@ public class BulletHelper {
         Point p3 = Point.add(c, dx2, dy2);
         Point p4 = Point.add(c, dx2, dy1);
 
-        double r = sqrt(pow(unit.getWidth()/2, 2) + pow(unit.getHeight()/2, 2));
+        double r = sqrt(pow(unit.getWidth()/2, 2) + pow(unit.getHeight()/2, 2)) + hitSize;
 
         Point[] points = new Point[] {p1, p2, p3, p4};
         for (Point point : points) {
@@ -163,37 +163,33 @@ public class BulletHelper {
     /** stronger - признак проверки "попаду наверняка" */
     public static HitTestResult hitTest(Shell shell, Unit unit, double x, double y, double angle, boolean stronger) {
 
-        double hitRadius = 0; //shell.getHeight()/2;
+        double hitRadius = stronger ? shell.getHeight()/2 : 0;
 
 
-        Point[] points = getUnitPoints(unit, x, y, angle);
+        Point[] points = getUnitPoints(unit, x, y, angle, hitRadius);
 
         Section trace = getShellSection(shell, shell.getDistanceTo(unit));
 
         Section[] hitSections = getSections(points);
 
-        double delta = 0; //stronger ? 10*sqrt(unit.getSpeedX()*unit.getSpeedX() + unit.getSpeedY()*unit.getSpeedY()) + 5 : 0;
         // точки пробития
-        Point hitPoint = getHitPoint(hitRadius - delta, trace, hitSections);
+        Point hitPoint = getHitPoint(trace, hitSections);
 
         if (hitPoint.equals(Point.NaP)) {
             return HitTestResult.Miss;
         }
 
-        // помехи - утолщаем если наверняка
-        delta = 0; //stronger ? 2: 0;
         // пересекается с нами
         // проверка на препятствия
         for (Tank aTank : env.world.getTanks()) {
             if (aTank.getId() != unit.getId()) {
-                if (hitTestTank(aTank, trace, hitRadius + delta))
+                if (hitTestTank(aTank, trace, hitRadius))
                         return HitTestResult.Miss;
             }
         }
-        delta = 0; //stronger ? 2: 0;
         // проверка на бонусы
         for(Bonus bonus : env.world.getBonuses()) {
-            if (hitTestBonus(bonus, trace, hitRadius + delta))
+            if (hitTestBonus(bonus, trace, hitRadius))
                     return HitTestResult.Miss;
         }
 
@@ -233,9 +229,9 @@ public class BulletHelper {
         }
         return count;
     }
-    private static Point getHitPoint(double hitRadius, Section trace, Section[] hitSections) {
+    private static Point getHitPoint(Section trace, Section[] hitSections) {
         for(int i=0; i<4;i++) {
-            Point hitPoint = Section.getIntersection(trace, hitSections[i], hitRadius);
+            Point hitPoint = Section.getIntersection(trace, hitSections[i]);
             if (!hitPoint.equals(Point.NaP)) {
                 return hitPoint;
             }
