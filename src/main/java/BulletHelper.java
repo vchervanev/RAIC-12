@@ -219,7 +219,7 @@ public class BulletHelper {
 
         Point[] points = getUnitPoints(unit, x, y, angle, hitRadius);
 
-        Section trace = getShellSection(shell, shell.getDistanceTo(unit));
+        Section trace = getShellSection(shell, shell.getDistanceTo(x, y));
 
         Section[] hitSections = getSections(points);
 

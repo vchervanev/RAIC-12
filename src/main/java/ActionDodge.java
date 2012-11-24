@@ -50,17 +50,24 @@ public class ActionDodge extends Action {
                 }
             }
         }
-        if (ticks == -1 ) {
+        if (ticks < 3 ) {
             variant = Variant.none;
             return;
         }
+        // к-т здоровья 0..1
+        double k = env.self.getCrewHealth()/(double)env.self.getCrewMaxHealth();
+        // замедляем 0.5..1
+        k = 0.5 + 0.5*k;
+        // кратно тикам (норматив - 35)
+        k *= ticks/(double)35;
+
         //продолжаем, ищем нычку
         for(DodgeVariant dodgeVariant : dodgeVariants) {
             double len = dodgeVariant.power * DELTA;
             double angle = env.self.getAngle();
-            double x = env.self.getX() + len*cos(angle);
-            double y = env.self.getY() + len*sin(angle);
-            angle = env.self.getAngle() + dodgeVariant.rotate * ROTATE;
+            double x = env.self.getX() + len*cos(angle)*k;
+            double y = env.self.getY() + len*sin(angle)*k;
+            angle = env.self.getAngle() + dodgeVariant.rotate * ROTATE * k;
 
             if (!BulletHelper.positionTest(env.self, x, y, angle)) {
                 continue;

@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public final class Runner {
     private final RemoteProcessClient remoteProcessClient;
-    private final NetGraphClient ngc = new NetGraphClient("localhost", 8888);
+    public static final NetGraphClient ngc = new NetGraphClient("localhost", 8888);
     private final String token;
 
     public static void main(String[] args) throws IOException {
