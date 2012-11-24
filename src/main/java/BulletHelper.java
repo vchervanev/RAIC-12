@@ -134,8 +134,8 @@ public class BulletHelper {
         return hitTest(shell, unit, unit.getX() + dx, unit.getY() + dy, unit.getAngle(), strong);
     }
 
-    public static boolean hitTestTank(Tank tank, Section trace, double hitRadius) {
-        Point[] points = getUnitPoints(tank, tank.getX(), tank.getY(), tank.getAngle(), hitRadius);
+    public static boolean hitTestUnit(Unit unit, Section trace, double hitRadius) {
+        Point[] points = getUnitPoints(unit, unit.getX(), unit.getY(), unit.getAngle(), hitRadius);
         Section[] sections = getSections(points);
         Point hitPoint = getHitPoint(trace, sections).hitPoint;
         return !hitPoint.equals(Point.NaP);
@@ -235,7 +235,7 @@ public class BulletHelper {
         // проверка на препятствия
         for (Tank aTank : env.world.getTanks()) {
             if (aTank.getId() != unit.getId()) {
-                if (hitTestTank(aTank, trace, hitRadius))
+                if (hitTestUnit(aTank, trace, hitRadius))
                         return HitTestResult.Miss;
             }
         }
@@ -244,7 +244,11 @@ public class BulletHelper {
             if (hitTestBonus(bonus, trace, hitRadius))
                     return HitTestResult.Miss;
         }
-
+        // проверка на препятствия // поддерживаются повернутые
+        for(Obstacle obstacle : env.world.getObstacles()) {
+            if (hitTestUnit(obstacle, trace, hitRadius))
+                return HitTestResult.Miss;
+        }
 
         if (stronger && unit instanceof Tank) {
             Tank tank = (Tank)unit;
