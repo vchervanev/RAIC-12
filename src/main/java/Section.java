@@ -7,7 +7,6 @@ import static java.lang.Math.min;
  * User: che
  * Date: 14.11.12
  * Time: 22:02
- * To change this template use File | Settings | File Templates.
  */
 public class Section {
     public final Point p1;
@@ -49,10 +48,10 @@ public class Section {
         double x;
         double y;
 
-        if (Double.isInfinite(s1.getK()) || abs(s1.getK()) > 100000) {
+        if (Double.isInfinite(s1.getK()) || s1.getK() == 0|| abs(s1.getK()) > 100000) {
             x = s1.p1.x;
             y = s2.getY(x);
-        } else if (Double.isInfinite(s2.getK())  || abs(s2.getK()) > 100000){
+        } else if (Double.isInfinite(s2.getK()) || s1.getK() == 0  || abs(s2.getK()) > 100000){
             x = s2.p1.x;
             y = s1.getY(x);
         } else {
@@ -77,11 +76,13 @@ public class Section {
 //        return (y - this.getB())/this.getK();
 //    }
 
-    public boolean isInside(Point p) {
-        return isInside(p, 0);
-    }
+//    public boolean isInside(Point p) {
+//        return isInside(p, 0);
+//    }
 
     public boolean isInside(Point p, double epsilon) {
+        if (epsilon == 0)
+            epsilon = 0.01;
         double minX = min(p1.x, p2.x);
         double maxX = max(p1.x, p2.x);
         double minY = min(p1.y, p2.y);

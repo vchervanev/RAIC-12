@@ -1,11 +1,8 @@
-import java.lang.SuppressWarnings;
-
 import model.*;
 
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.SocketAddress;
 
 import static java.lang.Math.*;
 
@@ -199,6 +196,10 @@ public class NetGraphClient {
             }
             drawUnit(shell);
             setColor("black");
+        }
+
+        for(Obstacle obstacle : world.getObstacles()) {
+            drawUnit(obstacle);
         }
 
         //clearRect(world.getWidth(), 0, 200, world.getHeight());

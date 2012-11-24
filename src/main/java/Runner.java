@@ -7,6 +7,7 @@ import java.io.IOException;
 
 public final class Runner {
     private final RemoteProcessClient remoteProcessClient;
+    private final NetGraphClient ngc = new NetGraphClient("localhost", 8888);
     private final String token;
 
     public static void main(String[] args) throws IOException {
@@ -48,6 +49,7 @@ public final class Runner {
 
                 Move[] moves = new Move[teamSize];
 
+                ngc.update(playerContext.getWorld());
                 for (int strategyIndex = 0; strategyIndex < teamSize; ++strategyIndex) {
                     Move move = new Move();
                     moves[strategyIndex] = move;

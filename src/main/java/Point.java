@@ -2,11 +2,7 @@ import model.Unit;
 
 import static java.lang.Math.*;
 
-/**
- * User: Alexandr
- * Date: 04.11.12
- * Time: 17:46
- */
+
 public class Point {
     public double x;
     public double y;
@@ -40,14 +36,14 @@ public class Point {
                 ((Double.isNaN(in.x) || Double.isNaN(in.y)) && (Double.isNaN(x) || Double.isNaN(y)));
     }
 
-    public boolean equals(double x, double y) {
-        return this.x == x && this.y ==y;
-    }
-
-    public void setXY(double x, double y) {
-        this.x = x;
-        this.y = y;
-    }
+//    public boolean equals(double x, double y) {
+//        return this.x == x && this.y ==y;
+//    }
+//
+//    public void setXY(double x, double y) {
+//        this.x = x;
+//        this.y = y;
+//    }
 
     /** Not a Point */
     public static final Point NaP = new Point(Double.NaN, Double.NaN);
@@ -62,10 +58,10 @@ public class Point {
         this.y += p.y;
     }
 
-    public void sub(Point p) {
-        this.x -= p.x;
-        this.y -= p.y;
-    }
+//    public void sub(Point p) {
+//        this.x -= p.x;
+//        this.y -= p.y;
+//    }
 
     public static Point add(Point p1, Point... points) {
         final Point result = new Point(p1);
@@ -75,13 +71,13 @@ public class Point {
         return result;
     }
 
-    public static Point sub(Point p1, Point... points) {
-        final Point result = new Point(p1);
-        for (Point p : points) {
-            result.sub(p);
-        }
-        return result;
-    }
+//    public static Point sub(Point p1, Point... points) {
+//        final Point result = new Point(p1);
+//        for (Point p : points) {
+//            result.sub(p);
+//        }
+//        return result;
+//    }
 
     public void rotate(Point c, double r, double angle) {
         double gamma = c.x != x ? -atan((c.y - y)/(c.x - x)) : -PI/2;
