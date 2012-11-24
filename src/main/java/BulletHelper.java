@@ -214,10 +214,13 @@ public class BulletHelper {
     /** stronger - признак проверки "попаду наверняка" */
     public static HitTestResult hitTest(Shell shell, Unit unit, double x, double y, double angle, boolean stronger) {
 
-        double hitRadius = stronger ? shell.getHeight() : 0;
+        // больше для строгих проверок
+        double hitRadiusStrong = stronger ? shell.getHeight() : 0;
+        // меньше для строгих проверок
+        double hitRadiusSoft = stronger ? 0 : shell.getHeight();
 
 
-        Point[] points = getUnitPoints(unit, x, y, angle, hitRadius);
+        Point[] points = getUnitPoints(unit, x, y, angle, hitRadiusSoft);
 
         Section trace = getShellSection(shell, shell.getDistanceTo(x, y));
 
@@ -235,18 +238,18 @@ public class BulletHelper {
         // проверка на препятствия
         for (Tank aTank : env.world.getTanks()) {
             if (aTank.getId() != unit.getId()) {
-                if (hitTestUnit(aTank, trace, hitRadius))
+                if (hitTestUnit(aTank, trace, hitRadiusStrong))
                         return HitTestResult.Miss;
             }
         }
         // проверка на бонусы
         for(Bonus bonus : env.world.getBonuses()) {
-            if (hitTestBonus(bonus, trace, hitRadius))
+            if (hitTestBonus(bonus, trace, hitRadiusStrong))
                     return HitTestResult.Miss;
         }
         // проверка на препятствия // поддерживаются повернутые
         for(Obstacle obstacle : env.world.getObstacles()) {
-            if (hitTestUnit(obstacle, trace, hitRadius))
+            if (hitTestUnit(obstacle, trace, hitRadiusStrong))
                 return HitTestResult.Miss;
         }
 
@@ -321,6 +324,23 @@ public class BulletHelper {
         double angle = shell.getAngle();
         Point p2 = new Point(shell.getX() + radius * cos(angle), shell.getY() + radius * sin(angle));
         return  new Section(p1, p2);
+    }
+
+    public static Shell findShell(long shellId) {
+        for(Shell shell : env.world.getShells()) {
+            if (shell.getId() == shellId)
+                return shell;
+        }
+        return null;
+    }
+
+    public static boolean isIncoming(Shell shell) {
+        double d1 = env.self.getDistanceTo(shell);
+        double x = shell.getX() + shell.getSpeedX();
+        double y = shell.getY() + shell.getSpeedY();
+        double d2 = env.self.getDistanceTo(x, y);
+
+        return d2 < d1;
     }
 
 

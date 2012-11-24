@@ -7,11 +7,11 @@ import static java.lang.Math.*;
  * User: User
  * Date: 05.11.12
  * Time: 0:11
- * To change this template use File | Settings | File Templates.
  */
 public class ActionDodge extends Action {
     final int DELTA = 60;
     final double ROTATE = PI/18;
+    long shellId = 0;
 
     static DodgeVariant[] dodgeVariants = {
             new DodgeVariant(+1, +0),
@@ -24,16 +24,15 @@ public class ActionDodge extends Action {
             new DodgeVariant(-0.5, -1),
     };
 
-    Shell shell;
     DodgeVariant dodge = null;
 
     @Override
     public void estimate() {
 
+        Shell shell = null;
         if (env.world.getTick() < 150) {
             dodge = null;
             variant = Variant.none;
-            shell = null;
             return;
         }
         Shell[] shells = env.world.getShells();
@@ -52,35 +51,56 @@ public class ActionDodge extends Action {
         }
         if (ticks < 3 ) {
             variant = Variant.none;
-            return;
-        }
-        // к-т здоровья 0..1
-        double k = env.self.getCrewHealth()/(double)env.self.getCrewMaxHealth();
-        // замедляем 0.5..1
-        k = 0.5 + 0.5*k;
-        // кратно тикам (норматив - 35)
-        k *= ticks/(double)35;
+            dodge = null;
+        }  else {
+            // к-т здоровья 0..1
+            double k = env.self.getCrewHealth()/(double)env.self.getCrewMaxHealth();
+            // замедляем 0.5..1
+            k = 0.5 + 0.5*k;
+            // кратно тикам (норматив - 35)
+            k *= ticks/(double)35;
 
-        //продолжаем, ищем нычку
-        for(DodgeVariant dodgeVariant : dodgeVariants) {
-            double len = dodgeVariant.power * DELTA;
-            double angle = env.self.getAngle();
-            double x = env.self.getX() + len*cos(angle)*k;
-            double y = env.self.getY() + len*sin(angle)*k;
-            angle = env.self.getAngle() + dodgeVariant.rotate * ROTATE * k;
+            //продолжаем, ищем нычку
+            for(DodgeVariant dodgeVariant : dodgeVariants) {
+                double len = dodgeVariant.power * DELTA;
+                double angle = env.self.getAngle();
+                double x = env.self.getX() + len*cos(angle)*k;
+                double y = env.self.getY() + len*sin(angle)*k;
+                angle = env.self.getAngle() + dodgeVariant.rotate * ROTATE * k;
 
-            if (!BulletHelper.positionTest(env.self, x, y, angle)) {
-                continue;
+                if (!BulletHelper.positionTest(env.self, x, y, angle)) {
+                    continue;
+                }
+                HitTestResult htr = BulletHelper.hitTest(shell, env.self, x, y, angle, false);
+
+                if (htr.tickCount == -1) {
+                    dodge = dodgeVariant;
+                    break;
+                }
             }
-            HitTestResult htr = BulletHelper.hitTest(shell, env.self, x, y, angle, false);
 
-            if (htr.tickCount == -1) {
-                dodge = dodgeVariant;
-                break;
+            variant = dodge == null ? Variant.none : Variant.dodge;
+        }
+        if (dodge != null) {
+            shellId = shell.getId();
+        } else if (shellId != 0) {
+            // проверим, что пуля удаляется от нас, иначе стоим как вкопанные
+            Shell oldShell = BulletHelper.findShell(shellId);
+            if (oldShell == null) {
+                shellId = 0;
+                return;
             }
+            if (BulletHelper.isIncoming(oldShell)) {
+                // додж без доджВарианта - стоим на месте
+                variant = Variant.dodge;
+            } else {
+                // опасность миновала
+                shellId = 0;
+            }
+
+
         }
 
-        variant = dodge == null ? Variant.none : Variant.dodge;
     }
 
 
