@@ -1,8 +1,6 @@
 import model.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static java.lang.Math.*;
 
@@ -27,23 +25,51 @@ public class ActionBonus extends Action {
 
         target = null;
         double currentCost = 0;
+        HashMap<Tank, Double> friendDistance = new HashMap<Tank, Double>(2);
         for(Bonus bonus : bonuses) {
             double cost = env.self.getDistanceTo(bonus);
+            // ближайший к бонусу враг
+            double minEnemyDistance = 9999;
 
             // штраф за танки на пути
             boolean skip = false;
             for(Tank tank : tanks) {
+                if (tank.isTeammate() && tank.getId() != env.self.getId() && tank.getCrewHealth() != 0
+                        || tank.getHullDurability() != 0) {
+                    friendDistance.put(tank, tank.getDistanceTo(bonus));
+                }
+                // член команды или труп - шут с ним
                 if (tank.getPlayerName().equals(env.self.getPlayerName()) || tank.getCrewHealth() == 0
                         || tank.getHullDurability() == 0){
                     continue;
                 }
                 double enemyDistance = tank.getDistanceTo(bonus);
+                if (enemyDistance < minEnemyDistance)
+                    minEnemyDistance = enemyDistance;
                 // враг недалеко и ближе нас
                 if (enemyDistance < 600 && enemyDistance < cost) {
                     skip = true;
                     break;
                 }
             }
+            if (skip) {
+                continue;
+            }
+
+            // поищем больных коллег недалеко
+            for(Map.Entry<Tank,Double> entry : friendDistance.entrySet()) {
+                Tank friend = entry.getKey();
+                double distance = entry.getValue();
+                boolean need =
+                        (bonus.getType() == BonusType.MEDIKIT && friend.getCrewHealth() < env.self.getCrewHealth())
+                        || (bonus.getType() == BonusType.REPAIR_KIT && friend.getHullDurability() < env.self.getHullDurability())
+                        || (bonus.getType() == BonusType.AMMO_CRATE && friend.getPremiumShellCount() < env.self.getPremiumShellCount());
+                if (need && (distance <= cost || distance < minEnemyDistance)) {
+                    skip = true;
+                    break;
+                }
+            }
+
             if (skip) {
                 continue;
             }

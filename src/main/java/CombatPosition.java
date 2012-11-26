@@ -33,14 +33,13 @@ public class CombatPosition extends Action {
             double distance = enemy.getDistanceTo(env.self);
             double maxAngle = atan(1.2*hitSize/distance);
             if (abs(enemy.getTurretAngleTo(env.self)) <= maxAngle ) {
-                double reloadTime = enemy.getRemainingReloadingTime() + distance/15.0; // средняя скорость пули на 40 тиков
+                double reloadTime = enemy.getRemainingReloadingTime() + BulletHelper.getTickCountToHitSimple(distance);
                 if (worstEnemy == null || minReloadTime > reloadTime ) {
                     minReloadTime = reloadTime;
                     worstEnemy = enemy;
                 }
             }
         }
-        // TODO лучше учитывать время полета пули v1 = v0*0.9995
 
         if (worstEnemy != null) {
             variant = minReloadTime < 100 ? Variant.combatPosition : Variant.combatPositionSoon;
@@ -49,7 +48,7 @@ public class CombatPosition extends Action {
 
     }
 
-    Tank oldWorstEnemy = null;
+    //Tank oldWorstEnemy = null;
 
     @Override
     public void perform() {
@@ -57,13 +56,15 @@ public class CombatPosition extends Action {
             return;
         }
         double angleToEnemy = env.self.getAngleTo(worstEnemy);
-        if (oldWorstEnemy == null || oldWorstEnemy.getId() != worstEnemy.getId()) {
-            oldWorstEnemy = worstEnemy;
-        }
-        final double delta = abs(angleToEnemy) - PI / 6;
+        double distance = env.self.getDistanceTo(worstEnemy);
+//        if (oldWorstEnemy == null || oldWorstEnemy.getId() != worstEnemy.getId()) {
+//            oldWorstEnemy = worstEnemy;
+//        }
+        final double value = distance < 400 ? PI/6 : PI/2;
+        final double delta = abs(angleToEnemy) - value;
         if (abs(delta) > PI/64) {
 
-            if ((angleToEnemy > PI/6 || (angleToEnemy < 0 && angleToEnemy > - PI/6))){
+            if ((angleToEnemy > value || (angleToEnemy < 0 && angleToEnemy > - value))){
                 env.move.setLeftTrackPower(minReloadTime > 30 ? 0.75 : 1);
                 env.move.setRightTrackPower(-1);
             } else {

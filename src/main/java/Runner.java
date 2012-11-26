@@ -54,7 +54,9 @@ public final class Runner {
                     Move move = new Move();
                     moves[strategyIndex] = move;
                     strategies[strategyIndex].move(playerTanks[strategyIndex], playerContext.getWorld(), move);
+                    ngc.update(playerTanks[strategyIndex], move);
                 }
+                ngc.update();
 
                 remoteProcessClient.writeMoves(moves);
             }

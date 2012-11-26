@@ -196,19 +196,31 @@ public class BulletHelper {
             if (point.x < 0 || point.x > env.world.getWidth() || point.y < 0 || point.y > env.world.getHeight())
                 return false;
         }
-        // проверка на пересечение с танком
-        // для грубой оценки
-//        double r1 = sqrt(getHitRadius(unit, Geo.HitTestMode.maximum));
-//        for(Tank tank : env.world.getTanks()) {
-//            if (tank.getId() != unit.getId()) {
-//                double r2 = sqrt(getHitRadius(tank, Geo.HitTestMode.maximum));
-//                if (unit.getDistanceTo(tank) < r1 + r2) {
-//                    // нужна детальная проверка
-//                }
-//
-//            }
-//        }
+
+        for(Obstacle obstacle : env.world.getObstacles()) {
+            if (isIntersect(points, obstacle)) {
+                return false;
+            }
+        }
+
+        for(Tank tank : env.world.getTanks()) {
+            if (tank.getId() != env.self.getId()) {
+                if (isIntersect(points, tank)) {
+                    return false;
+                }
+            }
+        }
         return true;
+    }
+
+    public static boolean isIntersect(Point[] points, Unit unit) {
+        Point[] unitPoints = getUnitPoints(unit);
+        for(Point point : points) {
+            if (Geo.isInside(point, unitPoints)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /** stronger - признак проверки "попаду наверняка" */

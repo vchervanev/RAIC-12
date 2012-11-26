@@ -206,7 +206,13 @@ public class NetGraphClient {
         clearRect(0, world.getHeight(), world.getWidth(), 40);
         setColor("red");
         drawString(Long.toString(world.getTick()), 10, 800);
-        sendCommand("update");
+    }
 
+    public void update(Tank tank, Move move) {
+        drawString(String.format("%.2f:%.2f", move.getLeftTrackPower(), move.getRightTrackPower()), tank.getX() - 25, tank.getY());
+    }
+
+    public void update() {
+        sendCommand("update");
     }
 }
