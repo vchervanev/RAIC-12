@@ -1,4 +1,10 @@
 import model.Shell;
+import model.ShellType;
+import model.Tank;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static java.lang.Math.*;
 
@@ -35,7 +41,15 @@ public class ActionDodge extends Action {
             variant = Variant.none;
             return;
         }
-        Shell[] shells = env.world.getShells();
+        ArrayList<Shell> shellList = new ArrayList<Shell>(8);
+        shellList.addAll(Arrays.asList(env.world.getShells()));
+        for(Tank enemy : env.getTargets()) {
+            if (enemy.getRemainingReloadingTime() < 10) {
+                shellList.add(BulletHelper.simulateShell(enemy, ShellType.REGULAR));
+            }
+        }
+
+        Shell[] shells = shellList.toArray(new Shell[shellList.size()]);
         double ticks = -1;
         for (Shell aShell : shells) {
             String name = aShell.getPlayerName();

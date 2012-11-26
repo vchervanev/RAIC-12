@@ -209,10 +209,14 @@ public class NetGraphClient {
     }
 
     public void update(Tank tank, Move move) {
+        if (socket == null)
+            return;
         drawString(String.format("%.2f:%.2f", move.getLeftTrackPower(), move.getRightTrackPower()), tank.getX() - 25, tank.getY());
     }
 
     public void update() {
+        if (socket == null)
+            return;
         sendCommand("update");
     }
 }

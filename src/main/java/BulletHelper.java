@@ -128,8 +128,8 @@ public class BulletHelper {
 
     public static HitTestResult hitTest(Shell shell, Unit unit, boolean strong){
         int ticks = getTickCountToHit(shell, unit);
-        double dx = 0.8 * ticks * unit.getSpeedX();
-        double dy = 0.8 * ticks * unit.getSpeedY();
+        double dx = 0.9 * ticks * unit.getSpeedX();
+        double dy = 0.9 * ticks * unit.getSpeedY();
 
         return hitTest(shell, unit, unit.getX() + dx, unit.getY() + dy, unit.getAngle(), strong);
     }

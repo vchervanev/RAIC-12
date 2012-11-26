@@ -60,7 +60,14 @@ public class CombatPosition extends Action {
 //        if (oldWorstEnemy == null || oldWorstEnemy.getId() != worstEnemy.getId()) {
 //            oldWorstEnemy = worstEnemy;
 //        }
-        final double value = distance < 400 ? PI/6 : PI/2;
+
+        double cx = env.self.getX() < env.world.getWidth()/2 ? 0 : env.world.getWidth();
+        double cy = env.self.getY() < env.world.getHeight()/2 ? 0 : env.world.getHeight();
+        double d2c = env.self.getDistanceTo(cx, cy);
+
+        final double value = d2c < 60 || env.self.getX() < 50 || env.self.getY() < 50
+                || env.self.getX() > env.world.getWidth() - 50 || env.self.getY() > env.world.getHeight() - 50
+                || distance < 400 ? PI/6 : PI/2;
         final double delta = abs(angleToEnemy) - value;
         if (abs(delta) > PI/64) {
 
