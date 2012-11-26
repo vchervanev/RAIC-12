@@ -59,6 +59,8 @@ public class ActionDodge extends Action {
             k = 0.5 + 0.5*k;
             // кратно тикам (норматив - 35)
             k *= ticks/(double)35;
+            if (k > 2)
+                k = 2; // а то будет слишком далеко бежать
 
             //продолжаем, ищем нычку
             for(DodgeVariant dodgeVariant : dodgeVariants) {
@@ -82,7 +84,7 @@ public class ActionDodge extends Action {
             variant = dodge == null ? Variant.none : Variant.dodge;
         }
         if (dodge != null) {
-            shellId = shell.getId();
+            shellId = shell != null ? shell.getId() : 0;
         } else if (shellId != 0) {
             // проверим, что пуля удаляется от нас, иначе стоим как вкопанные
             Shell oldShell = BulletHelper.findShell(shellId);

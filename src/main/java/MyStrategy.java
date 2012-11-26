@@ -116,6 +116,7 @@ public final class MyStrategy implements Strategy {
 
     @Override
     public TankType selectTank(int tankIndex, int teamSize) {
+        Env.cornerCoeff = teamSize == 1 ? 1.1 : 1.4;
         return TankType.MEDIUM;
     }
 

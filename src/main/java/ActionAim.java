@@ -20,18 +20,18 @@ import static java.util.Collections.sort;
  */
 public class ActionAim extends Action{
 
-//    static Movement[] movements = new Movement[] {
-//        new Movement(25, 0),
-//        new Movement(50, 0),
-//        new Movement(15, PI),
-//        new Movement(35, PI),
+    static Movement[] movements = new Movement[] {
+        new Movement(25, 0),
+        new Movement(50, 0),
+        new Movement(-15, 0),
+        new Movement(-35, 0),
 //        new Movement(30, PI/5),
 //        new Movement(30, -PI/5),
-//    };
+    };
 
     private Tank target;
     private double attackAngle;
-//    private Movement moving;
+    private Movement moving;
 
     @Override
     public void estimate() {
@@ -47,7 +47,7 @@ public class ActionAim extends Action{
         });
 
         Tank first = null; // замена Target если попасть ни в кого не можем
-//        moving = null;
+        moving = null;
 
         for(Tank tank : targets) {
             if (first == null) {
@@ -112,19 +112,21 @@ public class ActionAim extends Action{
             }
 
 
-//            // тестируем маневры
-//            for(Movement movement : movements) {
-//                double x = env.self.getX() + movement.distance*cos(env.self.getAngle() + movement.angle);
-//                double y = env.self.getY() + movement.distance*sin(env.self.getAngle() +movement.angle);
-//                if (!BulletHelper.positionTest(env.self, x, y, movement.angle))
-//                    continue;
-//                if (hitTest(tank, x, y) != -1) {
-//                    moving = movement;
-//                    break;
-//                }
-//            }
+            if (ttk1 == -1 ) {
+                // тестируем маневры
+                for(Movement movement : movements) {
+                    double x = env.self.getX() + movement.distance*cos(env.self.getAngle() + movement.angle);
+                    double y = env.self.getY() + movement.distance*sin(env.self.getAngle() + movement.angle);
+                    if (!BulletHelper.positionTest(env.self, x, y, movement.angle))
+                        continue;
+                    if (hitTest(tank, x, y) != -1) {
+                        moving = movement;
+                        break;
+                    }
+                }
+            }
 
-            if (ttk1 == -1 /*&& moving == null*/) {
+            if (ttk1 == -1 && moving == null) {
                 continue;
             }
 
@@ -145,11 +147,12 @@ public class ActionAim extends Action{
             target = first;
     }
 
-//    private double hitTest(Tank tank, double x, double y) {
-//        double angle = 2*PI - tank.getAngleTo(x, y); // прямой наводкой
-//        Shell shell = BulletHelper.simulateShell(env.self, ShellType.REGULAR, x, y, angle);
-//        return (double) BulletHelper.hitTest(shell, tank, true).tickCount;
-//    }
+    private double hitTest(Tank tank, double x, double y) {
+        Section attackSection = new Section(new Point(x,y), new Point(tank));
+        double angle = atan(attackSection.getK()); // прямой наводкой танком по координатам
+        Shell shell = BulletHelper.simulateShell(env.self, ShellType.REGULAR, x, y, angle);
+        return (double) BulletHelper.hitTest(shell, tank, true).tickCount;
+    }
 
     private double hitTest(Tank tank) {
         Shell shell = BulletHelper.simulateShell(env.self, ShellType.REGULAR, attackAngle);
@@ -161,19 +164,19 @@ public class ActionAim extends Action{
         if (target == null/* && moving == null*/)
             return;
 
-//        if (moving != null) {
-//            if (moving.angle == 0) {
-//                env.move.setLeftTrackPower(1);
-//                env.move.setRightTrackPower(1);
-//            } else if (moving.angle > 0) {
-//                env.move.setLeftTrackPower(0.75);
-//                env.move.setRightTrackPower(-1);
-//            } else {
-//                env.move.setLeftTrackPower(-1);
-//                env.move.setRightTrackPower(0.75);
-//            }
-//            return;
-//        }
+        if (moving != null) {
+            if (moving.angle == 0) {
+                env.move.setLeftTrackPower(moving.distance > 0 ? 1 : -1);
+                env.move.setRightTrackPower(moving.distance > 0 ? 1 : -1);
+            } else if (moving.angle > 0) {
+                env.move.setLeftTrackPower(0.75);
+                env.move.setRightTrackPower(-1);
+            } else {
+                env.move.setLeftTrackPower(-1);
+                env.move.setRightTrackPower(0.75);
+            }
+            return;
+        }
 
         double angle = attackAngle - env.self.getAngle() - env.self.getTurretRelativeAngle();
 
@@ -212,12 +215,12 @@ public class ActionAim extends Action{
     }
 }
 
-//class Movement {
-//    double distance;
-//    double angle;
-//
-//    public Movement(double distance, double angle) {
-//        this.angle = angle;
-//        this.distance = distance;
-//    }
-//}
+class Movement {
+    double distance;
+    double angle;
+
+    public Movement(double distance, double angle) {
+        this.angle = angle;
+        this.distance = distance;
+    }
+}

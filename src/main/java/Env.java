@@ -36,6 +36,7 @@ public class Env {
 
     public static final double NO_ROTATE = PI / 2;
     public static final double DELTA = PI / 6;
+    public static double cornerCoeff = 1;
 
     public boolean isTarget(Tank tank) {
         return tank.getCrewHealth() != 0 && tank.getHullDurability() != 0 &&
@@ -59,7 +60,7 @@ public class Env {
         if (!init)
             return;
 
-        dimention = max(self.getWidth(), self.getHeight())*1.0;
+        dimention = max(self.getWidth(), self.getHeight())* cornerCoeff;
 
         myName = self.getPlayerName();
 
